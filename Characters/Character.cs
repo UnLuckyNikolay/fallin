@@ -5,6 +5,9 @@ namespace Fallin.Characters
     public abstract class Character
     {
         public required string Name { get; init; }
+        public required string NameMap { get; init; }
+        public string NameColor { get; protected set; }
+
         private int health;
         public int Health {
             get => health;
@@ -13,7 +16,11 @@ namespace Fallin.Characters
                 if (health <= 0) { Death(); }
             }
         }
-        public abstract int HealthMax { get ;} 
+        public required int HealthMultiplier { get; init; }
+        public int HealthMax => (50 + 10 * Level + 10 * Endurance) * HealthMultiplier;
+        public required int AttackMultiplier { get; init; }
+        public int Attack => (4 * Strength + 2 * Agility) * AttackMultiplier;
+        public int Armor => Endurance;
 
         public bool IsAlive => Health > 0;
 
@@ -26,8 +33,10 @@ namespace Fallin.Characters
         public int Agility { get; protected set; }
         public int Luck { get; protected set; }
 
-        protected Character(int s, int p, int e, int c, int i, int a, int l)
+        protected Character(int level, string nameColor, int s, int p, int e, int c, int i, int a, int l)
         {
+            Level = level;
+            NameColor = nameColor;
             Strength = s;
             Perception = p;
             Endurance = e;
@@ -35,8 +44,15 @@ namespace Fallin.Characters
             Intelligence = i;
             Agility = a;
             Luck = l;
+
+            Health = HealthMax;
         }
 
         public abstract void Death();
+
+        public void TakeDamage(int damage)
+        {
+            Health -= (damage - Armor);
+        }
     }
 }
