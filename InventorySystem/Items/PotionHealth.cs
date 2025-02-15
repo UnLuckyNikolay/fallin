@@ -13,6 +13,7 @@ namespace Fallin.InventorySystem.Items
 
         public override void UseItem(Character target)
         {
+            Quantity--;
             target.Health += 50;
         }
     }
