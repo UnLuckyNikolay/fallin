@@ -8,7 +8,7 @@ namespace Fallin.InventorySystem
 
         public void AddItem(Item item)
         {
-            Item? itemFound = items.Find(itemSearched => itemSearched.Name == item.Name);
+            Item? itemFound = items.Find(itemSearched => itemSearched.Name.ToLower() == item.Name.ToLower());
             if (itemFound != null)
             {
                 itemFound.Quantity++;
@@ -18,7 +18,7 @@ namespace Fallin.InventorySystem
 
         public bool TryUsingItem(string itemName, Character target)
         {
-            Item? itemFound = items.Find(itemSearched => itemSearched.Name == itemName);
+            Item? itemFound = items.Find(itemSearched => itemSearched.Name.ToLower() == itemName.ToLower());
             if (itemFound != null)
             {
                 itemFound.UseItem(target);
@@ -30,7 +30,7 @@ namespace Fallin.InventorySystem
 
         public bool HasItem(string name)
         {
-            return items.Find(itemSearched => itemSearched.Name == name) != null;
+            return items.Find(itemSearched => itemSearched.Name.ToLower() == name.ToLower()) != null;
         }
     }
 }
