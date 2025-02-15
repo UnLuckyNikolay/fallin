@@ -7,7 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Xml.Linq;
 
 // DONE --- Possibly remove player.location, only use Game.characterLocation
-// Maybe change it so SPECIAL scale with level (calculated in .CalculateStats) for monsters and then command would be Character("name", level)
+// Maybe change it so SPECIAL scale with level (calculated in .CalculateStats) for monsters and then command would be Character_old("name", level)
 // DONE --- Try: change map so each row is another array so there is no need to have movement array. Would be easier to have different sizes, including non-square
 // DONE --- Rewrite Special back to names instead of an array to fuck my own brains less
 // DONE --- Finish rewritig DrawMap block (change all usages to v2), change code for movement
@@ -29,7 +29,7 @@ using System.Xml.Linq;
 // Enemy movement
 // Maybe fog of war
 // DONE --- Attack cheat doesn't remove enemy from the map
-// Split Character into Player and NPC
+// Split Character_old into Player and NPC
 
 // add class Item
 // maybe a list of items as inventory
@@ -55,7 +55,7 @@ namespace Fallin
                 Tool.Copy2DArray(Map.mapList[Game.mapCurrentId], Game.mapCurrentUnpopulated);
 
                 // --- Spawns player
-                Character player = new Character("Player");
+                Character_old player = new Character_old("Player");
                 Game.character[0] = player;
                 Spawn(0);
                 bool naming = true;
@@ -71,15 +71,15 @@ namespace Fallin
                 }
 
                 // --- Spawns enemies
-                Character enemy1 = new Character("Small Rat");
+                Character_old enemy1 = new Character_old("Small Rat");
                 Game.character[1] = enemy1;
                 Spawn(1);
 
-                Character enemy2 = new Character("Small Rat");
+                Character_old enemy2 = new Character_old("Small Rat");
                 Game.character[2] = enemy2;
                 Spawn(2);
 
-                Character enemy3 = new Character("Big Rat");
+                Character_old enemy3 = new Character_old("Big Rat");
                 Game.character[3] = enemy3;
                 Spawn(3);
 
@@ -207,7 +207,7 @@ namespace Fallin
                     {
                         case "fullheal":
                             Game.character[0].Heal();
-                            Console.Write(" Cheat used! Character fully healed");
+                            Console.Write(" Cheat used! Character_old fully healed");
                             Tool.Dots(800);
                             break;
 
@@ -990,7 +990,7 @@ namespace Fallin
         public static int mapCurrentId, opponentIndex;
         public static string menuCurrent = "exploration";
 
-        public static Character[] character = new Character[7];
+        public static Character_old[] character = new Character_old[7];
         public static int[][] characterLocation = new int[7][];
 
         public static string[] specialName = { "Strength", "Perception", "Endurance", "Charisma", "Intelligence", "Agility", "Luck" };
@@ -1105,7 +1105,7 @@ namespace Fallin
 
 
 
-    public class Character 
+    public class Character_old 
     {
         public string name, nameShort, colorName;
         public int id, level, specialLeft, xpCurrent = 0, xpMax, money = 0, xpBpCurrent = 0, levelBp = 0, armor, 
@@ -1120,7 +1120,7 @@ namespace Fallin
         public int potionHealth = 0;
         public int key = 0;
 
-        public Character(string Name) 
+        public Character_old(string Name) 
         {
             id = Array.IndexOf(CharInfo.name, Name);
             name = CharInfo.name[id];

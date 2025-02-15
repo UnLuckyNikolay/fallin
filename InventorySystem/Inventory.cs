@@ -1,3 +1,5 @@
+using Fallin.Characters;
+
 namespace Fallin.InventorySystem
 {
     public sealed class Inventory

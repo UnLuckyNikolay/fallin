@@ -1,5 +1,6 @@
 using System.Reflection.Metadata.Ecma335;
 using Fallin.InventorySystem;
+using Fallin.Characters;
 
 namespace Fallin.InventorySystem.Items
 {
@@ -12,7 +13,7 @@ namespace Fallin.InventorySystem.Items
 
         public override void UseItem(Character target)
         {
-            target.health += 50;
+            target.Health += 50;
         }
     }
 }
