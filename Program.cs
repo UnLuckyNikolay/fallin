@@ -156,7 +156,7 @@ namespace Fallin
                     
 
                     // --- Death, game restart
-                    if (player.hpCurrent <= 0)
+                    if (player.health <= 0)
                     {
                         Console.Clear();
                         Console.WriteLine("\n\n\n     Y O U   D I E D     \n\n\n");
@@ -278,7 +278,7 @@ namespace Fallin
                             break;
 
                         case "kms":
-                            Game.character[0].hpCurrent = 0;
+                            Game.character[0].health = 0;
                             Console.Write(" M'okay");
                             Tool.Dots(800);
                             break;
@@ -337,7 +337,7 @@ namespace Fallin
                                     break;
 
                                 default:
-                                    Game.character[0].hpCurrent -= 5;
+                                    Game.character[0].health -= 5;
                                     Console.Write(" Invalid input. HP -5");
                                     Tool.Dots(800);
                                     break;
@@ -350,9 +350,9 @@ namespace Fallin
                                 case "attack":
                                     FightCurrent.playerTurn = false;
                                     Attack(0, Game.opponentIndex, 1, FightCurrent.enemyBlocking);
-                                    if (Game.character[Game.opponentIndex].hpCurrent <= 0)
+                                    if (Game.character[Game.opponentIndex].health <= 0)
                                     {
-                                        Game.character[Game.opponentIndex].hpCurrent = 0;
+                                        Game.character[Game.opponentIndex].health = 0;
                                         FightCurrent.ongoing = false;
                                         FightCurrent.won = true;
                                     }
@@ -403,7 +403,7 @@ namespace Fallin
                                     break;
 
                                 default:
-                                    Game.character[0].hpCurrent -= 5;
+                                    Game.character[0].health -= 5;
                                     Console.Write(" What are you even trying to do? Moral down. HP -5");
                                     Tool.Dots(800);
                                     break;
@@ -421,9 +421,9 @@ namespace Fallin
                                     if (Game.character[0].potionHealth > 0)
                                     {
                                         Game.character[0].potionHealth--;
-                                        Game.character[0].hpCurrent += MathF.Round(Game.character[0].hpMax * 0.5f);
-                                        if (Game.character[0].hpCurrent > Game.character[0].hpMax)
-                                        { Game.character[0].hpCurrent = Game.character[0].hpMax; }
+                                        Game.character[0].health += MathF.Round(Game.character[0].healthMax * 0.5f);
+                                        if (Game.character[0].health > Game.character[0].healthMax)
+                                        { Game.character[0].health = Game.character[0].healthMax; }
                                         Console.Write(" You drink a health potion");
                                         Tool.Dots(600);
                                     }
@@ -649,7 +649,7 @@ namespace Fallin
                     }
                     FightCurrent.playerTurn = true;
                     FightCurrent.playerBlocking = false;
-                    if (Game.character[0].hpCurrent <= 0) { FightCurrent.ongoing = false; }
+                    if (Game.character[0].health <= 0) { FightCurrent.ongoing = false; }
                 }
             }
 
@@ -705,7 +705,7 @@ namespace Fallin
                 // --- Blocking check
                 if (isBlocking) { block = 0.25f; }
                 attackLast = MathF.Round(Game.character[indexAttacker].attack * crit * attackPower * block * rnd.Next(75, 126) / 100 - Game.character[indexDefender].armor);
-                Game.character[indexDefender].hpCurrent -= attackLast;
+                Game.character[indexDefender].health -= attackLast;
                 if (crit > 1) { Console.Write(" Critical hit!"); }
                 if (indexAttacker == 0)
                 {
@@ -796,14 +796,14 @@ namespace Fallin
                 }
                 else if (index == 0)
                 {
-                    Game.character[0].hpCurrent -= 5;
+                    Game.character[0].health -= 5;
                     Console.Write(" You bonk into a wall. HP -5");
                     Tool.Dots(800);
                 }
             }
             else if (index == 0)
             {
-                Game.character[0].hpCurrent -= 5;
+                Game.character[0].health -= 5;
                 Console.Write(" You slip on a banana peel. HP -5");
                 Tool.Dots(800);
             }
@@ -1110,7 +1110,7 @@ namespace Fallin
         public string name, nameShort, colorName;
         public int id, level, specialLeft, xpCurrent = 0, xpMax, money = 0, xpBpCurrent = 0, levelBp = 0, armor, 
             strength, perception, endurance, charisma, intelligence, agility, luck;
-        public float attackMultiplier, hpMultiplier, hpCurrent, hpMax, attack;
+        public float attackMultiplier, hpMultiplier, health, healthMax, attack;
         public bool[] colorNameAvailable = [true, false, false, false, false, // Game.color
                                             false, false, false, false, false, 
                                             false, false, false, false, false, 
@@ -1145,7 +1145,7 @@ namespace Fallin
 
         public void CalculateStats()
         {
-            hpMax = MathF.Round((50 + endurance * 10 + level * 10) * hpMultiplier);
+            healthMax = MathF.Round((50 + endurance * 10 + level * 10) * hpMultiplier);
             attack = MathF.Round((strength * 4 + agility * 2) * attackMultiplier);
             armor = endurance;
             xpMax = 20 + 30 * level;
@@ -1153,7 +1153,7 @@ namespace Fallin
 
         public void Heal()
         {
-            hpCurrent = hpMax;
+            health = healthMax;
         }
 
         public bool CalculateLevel()
@@ -1212,12 +1212,12 @@ namespace Fallin
             if (id == 0)
             {
                 Console.WriteLine($" Level: {level}, experience: {xpCurrent}/{xpMax}");
-                Console.WriteLine($" Health Points: {hpCurrent}/{hpMax}");
+                Console.WriteLine($" Health Points: {health}/{healthMax}");
                 Console.WriteLine($" Money: {money}");
             }
             else { 
                 Console.WriteLine($" Level: {level}");
-                Console.WriteLine($" Health Points: {hpCurrent}/{hpMax}");
+                Console.WriteLine($" Health Points: {health}/{healthMax}");
             }
         }
 

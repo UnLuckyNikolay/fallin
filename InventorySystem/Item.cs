@@ -2,10 +2,15 @@ namespace Fallin.InventorySystem
 {
     public abstract class Item
     {
-        public required string Name { get; init; }
+        public string Name { get; }
         public int Quantity = 1;
 
+        protected Item(string name)
+        {
+            Name = name;
+        }
 
-        public abstract void UseItem();
+
+        public abstract void UseItem(Character target);
     }
 }
