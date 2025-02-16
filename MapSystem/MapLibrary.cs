@@ -39,6 +39,12 @@ namespace Fallin.MapSystem
             return rnd.Next(0, MapList.Length);
         }
 
+        public static int[] GetRandomSpawn(int id)
+        {
+            Random rnd = new();
+            return MapSpawns[id][rnd.Next(0, MapSpawns[id].Length)];
+        }
+
         public static string[][] GetMap(int id)
         {
             return MapList[id];

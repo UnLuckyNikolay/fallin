@@ -19,7 +19,7 @@ namespace Fallin.MapSystem
         {
             if (IsWall)
             {
-                Console.Write("▒▒");
+                Utilities.WriteColored("▒▒", "darkyellow");
             }
             else if (character == null)
             {

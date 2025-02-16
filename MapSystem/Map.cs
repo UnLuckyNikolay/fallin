@@ -5,10 +5,11 @@ namespace Fallin.MapSystem
     public class Map
     {
         public Cell[,] MapCurrent { get; protected set; }
+        private int id;
     
         public Map(int overrideId = -1)
         {
-            int id = overrideId;
+            id = overrideId;
             if (id == -1)
             {
                 id = MapLibrary.GetRandomMapID();
@@ -81,6 +82,13 @@ namespace Fallin.MapSystem
                 }
                 Console.WriteLine();
             }
+        }
+
+        public void Spawn(Character character)
+        {
+            int[] position = MapLibrary.GetRandomSpawn(id);
+            character.Position = (position[0], position[1]);
+            MapCurrent[position[0], position[1]].AddCharacter(character);
         }
     }
 }

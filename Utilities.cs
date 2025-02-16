@@ -109,7 +109,7 @@ namespace Fallin
             Thread.Sleep(duration);
             Console.Write(".");
             Thread.Sleep(duration);
-            Console.Write(".");
+            Console.WriteLine(".");
             Thread.Sleep(duration);
         }
     }
