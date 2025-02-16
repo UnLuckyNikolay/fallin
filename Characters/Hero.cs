@@ -62,6 +62,11 @@ namespace Fallin.Characters
             inventory.AddItem(item);
         }
 
+        public void Move(string direction)
+        {
+            // ADD MOVEMENT
+        }
+
         public override void Death()
         {
             Console.WriteLine("The brave hero is lying defeated!");

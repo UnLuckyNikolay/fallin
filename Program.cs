@@ -48,11 +48,11 @@ namespace Fallin
                 Console.WriteLine(" Welcome to Fallin.");
 
                 // --- Generates map
-                Game.mapCurrentId = rnd.Next(0, Map.mapList.Length);
-                Game.mapCurrent = new string[Map.mapList[Game.mapCurrentId].Length][];
-                Game.mapCurrentUnpopulated = new string[Map.mapList[Game.mapCurrentId].Length][];
-                Tool.Copy2DArray(Map.mapList[Game.mapCurrentId], Game.mapCurrent);
-                Tool.Copy2DArray(Map.mapList[Game.mapCurrentId], Game.mapCurrentUnpopulated);
+                Game.mapCurrentId = rnd.Next(0, Map_old.mapList.Length);
+                Game.mapCurrent = new string[Map_old.mapList[Game.mapCurrentId].Length][];
+                Game.mapCurrentUnpopulated = new string[Map_old.mapList[Game.mapCurrentId].Length][];
+                Tool.Copy2DArray(Map_old.mapList[Game.mapCurrentId], Game.mapCurrent);
+                Tool.Copy2DArray(Map_old.mapList[Game.mapCurrentId], Game.mapCurrentUnpopulated);
 
                 // --- Spawns player
                 Character_old player = new Character_old("Player");
@@ -554,11 +554,11 @@ namespace Fallin
         {
             Random rnd = new Random();
             bool spawning = true;
-            int i = rnd.Next(0, Map.mapSpawns[Game.mapCurrentId].Length), j = i;
+            int i = rnd.Next(0, Map_old.mapSpawns[Game.mapCurrentId].Length), j = i;
             int[] location;
             do
             {
-                location = Map.mapSpawns[Game.mapCurrentId][i];
+                location = Map_old.mapSpawns[Game.mapCurrentId][i];
                 if (!Game.characterLocation.Contains(location))                            // CHECK IF THIS EVEN WORKS
                 {
                     spawning = false;
@@ -566,7 +566,7 @@ namespace Fallin
                 }
                 else
                 {
-                    if (i < Map.mapSpawns[Game.mapCurrentId].Length - 1)
+                    if (i < Map_old.mapSpawns[Game.mapCurrentId].Length - 1)
                     {
                         i++;
                     }
@@ -755,7 +755,7 @@ namespace Fallin
                         break;
                 }
                 string goal = Game.mapCurrent[goalXY[0]][goalXY[1]];
-                if (!Map.walls.Contains(goal))
+                if (!Map_old.walls.Contains(goal))
                 {
                     // --- Enemy detection
                     if (CharInfo.nameMap.Contains(goal))
@@ -1014,7 +1014,7 @@ namespace Fallin
     }
 
 
-    public static class Map
+    public static class Map_old
     {
         // --- Different walls: ░░░ ▒▒▒ ▓▓▓
         //public static string[] walls = { " ║ ", "══", "██", " ╔", "╗ ", " ║", "║ ", " ╚", "╝ " }; // --- Old walls

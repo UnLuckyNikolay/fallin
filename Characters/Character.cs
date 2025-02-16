@@ -1,4 +1,5 @@
 using System.Dynamic;
+using Fallin.MapSystem;
 
 namespace Fallin.Characters
 {
@@ -33,6 +34,10 @@ namespace Fallin.Characters
         public int Agility { get; protected set; }
         public int Luck { get; protected set; }
 
+        protected Map? mapCurrent;
+        public (int x, int y) Position { get; set; }
+
+
         protected Character(int level, string nameColor, int s, int p, int e, int c, int i, int a, int l)
         {
             Level = level;
@@ -48,11 +53,17 @@ namespace Fallin.Characters
             Health = HealthMax;
         }
 
+
         public abstract void Death();
 
         public void TakeDamage(int damage)
         {
             Health -= (damage - Armor);
+        }
+
+        public void SetMapReference(Map map)
+        {
+            mapCurrent = map;
         }
     }
 }
