@@ -5,8 +5,10 @@ using System.Reflection.Metadata;
 using System.Runtime;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml.Linq;
+using Fallin.Characters;
+using Fallin.MapSystem;
 
-// DONE --- Possibly remove player.location, only use Game.characterLocation
+// DONE --- Possibly remove player.location, only use Game_old.characterLocation
 // Maybe change it so SPECIAL scale with level (calculated in .CalculateStats) for monsters and then command would be Character_old("name", level)
 // DONE --- Try: change map so each row is another array so there is no need to have movement array. Would be easier to have different sizes, including non-square
 // DONE --- Rewrite Special back to names instead of an array to fuck my own brains less
@@ -23,7 +25,7 @@ using System.Xml.Linq;
 // DONE --- Dead enemies
 // DONE --- Battle pass and name color customisation
 // Inventory and drop tables
-// DONE --- Game restart is broken
+// DONE --- Game_old restart is broken
 // DONE --- Maybe min and max damage
 // DONE --- Add second unpopulated copy of the map and change movement to allow exit/merchant/etc
 // Enemy movement
@@ -41,22 +43,30 @@ namespace Fallin
     {
         static void Main(string[] args)
         {
-            while (Game.gameOn)
+            while (Game_old.gameOn)
             {
-                Game.roundOn = true;
+                Console.Clear();
+                GameStateManager GSM = new();
+                Hero Player = new(GSM, "Bred");
+                Map mapTest = new(0);
+                mapTest.Spawn(Player);
+                mapTest.DrawMap();
+                Console.ReadLine();
+
+                Game_old.roundOn = true;
                 Random rnd = new Random();
                 Console.WriteLine(" Welcome to Fallin.");
 
                 // --- Generates map
-                Game.mapCurrentId = rnd.Next(0, Map_old.mapList.Length);
-                Game.mapCurrent = new string[Map_old.mapList[Game.mapCurrentId].Length][];
-                Game.mapCurrentUnpopulated = new string[Map_old.mapList[Game.mapCurrentId].Length][];
-                Tool.Copy2DArray(Map_old.mapList[Game.mapCurrentId], Game.mapCurrent);
-                Tool.Copy2DArray(Map_old.mapList[Game.mapCurrentId], Game.mapCurrentUnpopulated);
+                Game_old.mapCurrentId = rnd.Next(0, Map_old.mapList.Length);
+                Game_old.mapCurrent = new string[Map_old.mapList[Game_old.mapCurrentId].Length][];
+                Game_old.mapCurrentUnpopulated = new string[Map_old.mapList[Game_old.mapCurrentId].Length][];
+                Tool.Copy2DArray(Map_old.mapList[Game_old.mapCurrentId], Game_old.mapCurrent);
+                Tool.Copy2DArray(Map_old.mapList[Game_old.mapCurrentId], Game_old.mapCurrentUnpopulated);
 
                 // --- Spawns player
                 Character_old player = new Character_old("Player");
-                Game.character[0] = player;
+                Game_old.character[0] = player;
                 Spawn(0);
                 bool naming = true;
                 Console.Write(" Write the character name: ");
@@ -72,26 +82,26 @@ namespace Fallin
 
                 // --- Spawns enemies
                 Character_old enemy1 = new Character_old("Small Rat");
-                Game.character[1] = enemy1;
+                Game_old.character[1] = enemy1;
                 Spawn(1);
 
                 Character_old enemy2 = new Character_old("Small Rat");
-                Game.character[2] = enemy2;
+                Game_old.character[2] = enemy2;
                 Spawn(2);
 
                 Character_old enemy3 = new Character_old("Big Rat");
-                Game.character[3] = enemy3;
+                Game_old.character[3] = enemy3;
                 Spawn(3);
 
-                while (Game.roundOn)
+                while (Game_old.roundOn)
                 {
-                    switch (Game.menuCurrent)
+                    switch (Game_old.menuCurrent)
                     {
                         case "exploration":
                             Console.Clear();
                             player.WriteAttributes();
                             Console.WriteLine("\n --<Current map>--");
-                            DrawMap(Game.mapCurrent);
+                            DrawMap(Game_old.mapCurrent);
                             Console.Write("\n Choose the next command (inventory, move (up/down/left/right), legend, turnoff): ");
                             PlayerCommand(Console.ReadLine());
                             break;
@@ -131,21 +141,21 @@ namespace Fallin
                             Console.Write(" Press Enter to exit the menu ");
                             Console.ReadLine();
                             player.CalculateStats();
-                            Game.menuCurrent = "inventory";
+                            Game_old.menuCurrent = "inventory";
                             break;
 
                         case "battlepass":
                             Console.Clear();
-                            Game.character[0].WriteAttributes();
+                            Game_old.character[0].WriteAttributes();
                             Console.WriteLine();
-                            Game.character[0].WriteBP();
+                            Game_old.character[0].WriteBP();
                             Console.WriteLine();
                             Console.Write(" Available name colors: ");
                             for (int i = 0; i < player.colorNameAvailable.Length; i++ )
                             {
                                 if (player.colorNameAvailable[i])
                                 {
-                                    Console.Write($"{Game.color[i]}, ");
+                                    Console.Write($"{Game_old.color[i]}, ");
                                 }
                             }
                             Console.WriteLine("\b\b  ");
@@ -168,21 +178,21 @@ namespace Fallin
                             {
                                 case "yes":
                                     questionGameRepeat = false;
-                                    Game.roundOn = false;
-                                    for ( int i = 0; i < Game.character.Length; i++ )
+                                    Game_old.roundOn = false;
+                                    for ( int i = 0; i < Game_old.character.Length; i++ )
                                     {
-                                        Game.character[i] = null;
-                                        Game.characterLocation[i] = null;
+                                        Game_old.character[i] = null;
+                                        Game_old.characterLocation[i] = null;
                                     }
-                                    Game.menuCurrent = "exploration";
-                                    Game.mapCurrent = null;
+                                    Game_old.menuCurrent = "exploration";
+                                    Game_old.mapCurrent = null;
                                     Console.Clear();
                                     break;
 
                                 case "no":
                                     questionGameRepeat = false;
-                                    Game.roundOn = false;
-                                    Game.gameOn = false;
+                                    Game_old.roundOn = false;
+                                    Game_old.gameOn = false;
                                     break;
 
                                 default:
@@ -206,7 +216,7 @@ namespace Fallin
                     switch (commandSplit[1])
                     {
                         case "fullheal":
-                            Game.character[0].Heal();
+                            Game_old.character[0].Heal();
                             Console.Write(" Cheat used! Character_old fully healed");
                             Tool.Dots(800);
                             break;
@@ -214,29 +224,29 @@ namespace Fallin
                         case "lvlup":
                         case "levelup":
                             Console.WriteLine(" Cheat used! Level increased.");
-                            Game.character[0].xpCurrent = Game.character[0].xpMax;
-                            Game.character[0].CalculateLevel();
+                            Game_old.character[0].xpCurrent = Game_old.character[0].xpMax;
+                            Game_old.character[0].CalculateLevel();
                             Tool.Dots(800);
                             break;
 
                         case "bpup":
                             Console.WriteLine(" Cheat used! BP level increased.");
-                            Game.character[0].xpBpCurrent += 1000;
-                            Game.character[0].CalculateLevel();
+                            Game_old.character[0].xpBpCurrent += 1000;
+                            Game_old.character[0].CalculateLevel();
                             Tool.Dots(800);
                             break;
 
                         case "money":
                             Console.Write(" Cheat used! More money added");
                             if (!int.TryParse(commandSplit[2], out int money)) { goto default; }
-                            Game.character[0].money += money;
+                            Game_old.character[0].money += money;
                             Tool.Dots(800);
                             break;
 
                         case "attack":
                             if (!int.TryParse(commandSplit[2], out int index)) { goto default; }
-                            Game.opponentIndex = index;
-                            Game.menuCurrent = "fight";
+                            Game_old.opponentIndex = index;
+                            Game_old.menuCurrent = "fight";
                             Fight(true);
                             break;
 
@@ -278,18 +288,18 @@ namespace Fallin
                             break;
 
                         case "kms":
-                            Game.character[0].health = 0;
+                            Game_old.character[0].health = 0;
                             Console.Write(" M'okay");
                             Tool.Dots(800);
                             break;
 
                         case "info":
-                            Console.WriteLine($" Slots - {Game.character.Length}");
-                            for ( int i = 0; i < Game.character.Length; i++ ) 
+                            Console.WriteLine($" Slots - {Game_old.character.Length}");
+                            for ( int i = 0; i < Game_old.character.Length; i++ ) 
                             { 
-                                if (Game.character[i] != null)
+                                if (Game_old.character[i] != null)
                                 {
-                                    Console.WriteLine($" Slot {i}: {Game.character[i].name}, {Game.characterLocation[i][0]}.{Game.characterLocation[i][1]}");
+                                    Console.WriteLine($" Slot {i}: {Game_old.character[i].name}, {Game_old.characterLocation[i][0]}.{Game_old.characterLocation[i][1]}");
                                 }
                             }
                             Console.Write(" Press Enter to continue ");
@@ -304,14 +314,14 @@ namespace Fallin
                     break;
 
                 default:
-                    switch (Game.menuCurrent)
+                    switch (Game_old.menuCurrent)
                     {
                         case "exploration":
                             switch (commandSplit[0])
                             {
                                 case "stats":
                                 case "inventory":
-                                    Game.menuCurrent = "inventory";
+                                    Game_old.menuCurrent = "inventory";
                                     break;
 
                                 case "go":
@@ -320,8 +330,8 @@ namespace Fallin
                                     break;
 
                                 case "turnoff":
-                                    Game.roundOn = false;
-                                    Game.gameOn = false;
+                                    Game_old.roundOn = false;
+                                    Game_old.gameOn = false;
                                     Console.Write(" K, bye");
                                     Tool.Dots(800);
                                     break;
@@ -337,7 +347,7 @@ namespace Fallin
                                     break;
 
                                 default:
-                                    Game.character[0].health -= 5;
+                                    Game_old.character[0].health -= 5;
                                     Console.Write(" Invalid input. HP -5");
                                     Tool.Dots(800);
                                     break;
@@ -349,10 +359,10 @@ namespace Fallin
                             {
                                 case "attack":
                                     FightCurrent.playerTurn = false;
-                                    Attack(0, Game.opponentIndex, 1, FightCurrent.enemyBlocking);
-                                    if (Game.character[Game.opponentIndex].health <= 0)
+                                    Attack(0, Game_old.opponentIndex, 1, FightCurrent.enemyBlocking);
+                                    if (Game_old.character[Game_old.opponentIndex].health <= 0)
                                     {
-                                        Game.character[Game.opponentIndex].health = 0;
+                                        Game_old.character[Game_old.opponentIndex].health = 0;
                                         FightCurrent.ongoing = false;
                                         FightCurrent.won = true;
                                     }
@@ -376,14 +386,14 @@ namespace Fallin
                             switch (commandSplit[0])
                             {
                                 case "items":
-                                    Game.menuCurrent = "items";
+                                    Game_old.menuCurrent = "items";
                                     break;
 
                                 case "lvlup":
                                 case "levelup":
-                                    if (Game.character[0].specialLeft > 0)
+                                    if (Game_old.character[0].specialLeft > 0)
                                     {
-                                        Game.menuCurrent = "leveling";
+                                        Game_old.menuCurrent = "leveling";
                                         break;
                                     }
                                     else
@@ -394,16 +404,16 @@ namespace Fallin
                                     break;
 
                                 case "exit":
-                                    Game.menuCurrent = "exploration";
+                                    Game_old.menuCurrent = "exploration";
                                     break;
 
                                 case "bp":
                                 case "battlepass":
-                                    Game.menuCurrent = "battlepass";
+                                    Game_old.menuCurrent = "battlepass";
                                     break;
 
                                 default:
-                                    Game.character[0].health -= 5;
+                                    Game_old.character[0].health -= 5;
                                     Console.Write(" What are you even trying to do? Moral down. HP -5");
                                     Tool.Dots(800);
                                     break;
@@ -414,16 +424,16 @@ namespace Fallin
                             switch (command) 
                             {
                                 case "exit":
-                                    Game.menuCurrent = "inventory";
+                                    Game_old.menuCurrent = "inventory";
                                     break;
 
                                 case "health potion":
-                                    if (Game.character[0].potionHealth > 0)
+                                    if (Game_old.character[0].potionHealth > 0)
                                     {
-                                        Game.character[0].potionHealth--;
-                                        Game.character[0].health += MathF.Round(Game.character[0].healthMax * 0.5f);
-                                        if (Game.character[0].health > Game.character[0].healthMax)
-                                        { Game.character[0].health = Game.character[0].healthMax; }
+                                        Game_old.character[0].potionHealth--;
+                                        Game_old.character[0].health += MathF.Round(Game_old.character[0].healthMax * 0.5f);
+                                        if (Game_old.character[0].health > Game_old.character[0].healthMax)
+                                        { Game_old.character[0].health = Game_old.character[0].healthMax; }
                                         Console.Write(" You drink a health potion");
                                         Tool.Dots(600);
                                     }
@@ -435,7 +445,7 @@ namespace Fallin
                                     break;
 
                                 case "key":
-                                    if (Game.character[0].key > 0)
+                                    if (Game_old.character[0].key > 0)
                                     {
                                         Console.Write(" You can use this to open the exit");
                                         Tool.Dots(600);
@@ -451,36 +461,36 @@ namespace Fallin
                             break;
 
                         case "leveling":
-                            if (command != "" && Game.specialChar.Contains(char.ToUpper(command[0])))
+                            if (command != "" && Game_old.specialChar.Contains(char.ToUpper(command[0])))
                             {
                                 switch (command[0])
                                 {
                                     case 's':
-                                        Game.character[0].strength++;
+                                        Game_old.character[0].strength++;
                                         break;
                                     case 'p':
-                                        Game.character[0].perception++;
+                                        Game_old.character[0].perception++;
                                         break;
                                     case 'e':
-                                        Game.character[0].endurance++;
+                                        Game_old.character[0].endurance++;
                                         break;
                                     case 'c':
-                                        Game.character[0].charisma++;
+                                        Game_old.character[0].charisma++;
                                         break;
                                     case 'i':
-                                        Game.character[0].intelligence++;
+                                        Game_old.character[0].intelligence++;
                                         break;
                                     case 'a':
-                                        Game.character[0].agility++;
+                                        Game_old.character[0].agility++;
                                         break;
                                     case 'l':
-                                        Game.character[0].luck++;
+                                        Game_old.character[0].luck++;
                                         break;
                                 }
-                                Game.character[0].specialLeft--;
-                                Console.Write($" {Game.specialName[Array.IndexOf(Game.specialChar, char.ToUpper(command[0]))]} increased!");
-                                if (Game.character[0].specialLeft > 1) { Console.Write($" {Game.character[0].specialLeft} more points left. Choose the next attribute: "); }
-                                else if (Game.character[0].specialLeft == 1) { Console.Write($" {Game.character[0].specialLeft} more point left. Choose the next attribute: "); }
+                                Game_old.character[0].specialLeft--;
+                                Console.Write($" {Game_old.specialName[Array.IndexOf(Game_old.specialChar, char.ToUpper(command[0]))]} increased!");
+                                if (Game_old.character[0].specialLeft > 1) { Console.Write($" {Game_old.character[0].specialLeft} more points left. Choose the next attribute: "); }
+                                else if (Game_old.character[0].specialLeft == 1) { Console.Write($" {Game_old.character[0].specialLeft} more point left. Choose the next attribute: "); }
                             }
                             else if (command == "legend")
                             {
@@ -502,16 +512,16 @@ namespace Fallin
                             switch (commandSplit[0])
                             {
                                 case "name":
-                                    if (Game.colorToLower.Contains(commandSplit[1]) && Game.character[0].colorNameAvailable[Array.IndexOf(Game.colorToLower, commandSplit[1])] == true)
+                                    if (Game_old.colorToLower.Contains(commandSplit[1]) && Game_old.character[0].colorNameAvailable[Array.IndexOf(Game_old.colorToLower, commandSplit[1])] == true)
                                     {
-                                        Game.character[0].colorName = commandSplit[1];
+                                        Game_old.character[0].colorName = commandSplit[1];
                                         Console.Write(" Name color changed");
                                         Tool.Dots(800);
                                     }
                                     else { goto default; }
                                     break;
                                 case "exit":
-                                    Game.menuCurrent = "inventory";
+                                    Game_old.menuCurrent = "inventory";
                                     break;
                                 default:
                                     Console.Write(" Invalid input");
@@ -537,7 +547,7 @@ namespace Fallin
                     }
                     else if (map[i][j].Equals(CharInfo.nameMap[0]))
                     {
-                        Tool.WriteColored(map[i][j], Game.character[0].colorName);
+                        Tool.WriteColored(map[i][j], Game_old.character[0].colorName);
                     }
                     else if (CharInfo.nameMap.Contains(map[i][j]))
                     {
@@ -554,19 +564,19 @@ namespace Fallin
         {
             Random rnd = new Random();
             bool spawning = true;
-            int i = rnd.Next(0, Map_old.mapSpawns[Game.mapCurrentId].Length), j = i;
+            int i = rnd.Next(0, Map_old.mapSpawns[Game_old.mapCurrentId].Length), j = i;
             int[] location;
             do
             {
-                location = Map_old.mapSpawns[Game.mapCurrentId][i];
-                if (!Game.characterLocation.Contains(location))                            // CHECK IF THIS EVEN WORKS
+                location = Map_old.mapSpawns[Game_old.mapCurrentId][i];
+                if (!Game_old.characterLocation.Contains(location))                            // CHECK IF THIS EVEN WORKS
                 {
                     spawning = false;
-                    Game.characterLocation[index] = location;
+                    Game_old.characterLocation[index] = location;
                 }
                 else
                 {
-                    if (i < Map_old.mapSpawns[Game.mapCurrentId].Length - 1)
+                    if (i < Map_old.mapSpawns[Game_old.mapCurrentId].Length - 1)
                     {
                         i++;
                     }
@@ -576,13 +586,13 @@ namespace Fallin
             while (i != j && spawning);
             if (!spawning)
             {
-                Game.mapCurrent[location[0]][location[1]] = CharInfo.nameMap[Game.character[index].id];
+                Game_old.mapCurrent[location[0]][location[1]] = CharInfo.nameMap[Game_old.character[index].id];
             }
             else
             {
                 Console.WriteLine(" ERROR! FAILED TO SPAWN THE ENEMY");
                 Console.ReadLine();
-                Game.character[index] = null;
+                Game_old.character[index] = null;
             }
         }
 
@@ -597,7 +607,7 @@ namespace Fallin
             FightCurrent.enemyChargeCD = 1;
             FightCurrent.ongoing = true;
 
-            int id = Game.character[Game.opponentIndex].id;
+            int id = Game_old.character[Game_old.opponentIndex].id;
 
             if (isPlayerAttacking) { FightCurrent.playerTurn = true; }
             else { FightCurrent.playerTurn = false; }
@@ -605,9 +615,9 @@ namespace Fallin
             while (FightCurrent.ongoing)
             {
                 Console.Clear();
-                Game.character[0].WriteAttributes();
+                Game_old.character[0].WriteAttributes();
                 Console.WriteLine();
-                Game.character[Game.opponentIndex].WriteAttributes();
+                Game_old.character[Game_old.opponentIndex].WriteAttributes();
                 Console.WriteLine();
                 Console.WriteLine(CharInfo.sprite[id][0]);
 
@@ -624,10 +634,10 @@ namespace Fallin
                 {
                     if (FightCurrent.enemyCharging)
                     {
-                        Console.Write($" The {Game.character[Game.opponentIndex].name} hits you with a charged attack!");
+                        Console.Write($" The {Game_old.character[Game_old.opponentIndex].name} hits you with a charged attack!");
                         Tool.Dots(500);
                         Console.WriteLine();
-                        Attack(Game.opponentIndex, 0, 3, FightCurrent.playerBlocking);
+                        Attack(Game_old.opponentIndex, 0, 3, FightCurrent.playerBlocking);
                         FightCurrent.enemyChargeCD = 2;
                         FightCurrent.enemyCharging = false;
                     }
@@ -635,21 +645,21 @@ namespace Fallin
                     else if (FightCurrent.enemyChargeCD == 0 && rnd.Next(0, 100) > 30) 
                     {
                         FightCurrent.enemyCharging = true;
-                        Console.Write($" The {Game.character[Game.opponentIndex].name} prepares a devastating attack");
+                        Console.Write($" The {Game_old.character[Game_old.opponentIndex].name} prepares a devastating attack");
                         Tool.Dots(1000);
                     }
 
                     else
                     {
-                        Console.Write($" The {Game.character[Game.opponentIndex].name} attacks you!");
+                        Console.Write($" The {Game_old.character[Game_old.opponentIndex].name} attacks you!");
                         Tool.Dots(500);
                         Console.WriteLine();
-                        Attack(Game.opponentIndex, 0, 1, FightCurrent.playerBlocking);
+                        Attack(Game_old.opponentIndex, 0, 1, FightCurrent.playerBlocking);
                         FightCurrent.enemyChargeCD--; 
                     }
                     FightCurrent.playerTurn = true;
                     FightCurrent.playerBlocking = false;
-                    if (Game.character[0].health <= 0) { FightCurrent.ongoing = false; }
+                    if (Game_old.character[0].health <= 0) { FightCurrent.ongoing = false; }
                 }
             }
 
@@ -657,35 +667,35 @@ namespace Fallin
             if (FightCurrent.won)
             {
                 Console.Clear();
-                Game.character[0].WriteAttributes();
+                Game_old.character[0].WriteAttributes();
                 Console.WriteLine();
-                Game.character[Game.opponentIndex].WriteAttributes();
+                Game_old.character[Game_old.opponentIndex].WriteAttributes();
                 Console.WriteLine();
                 Tool.WriteColored(CharInfo.sprite[id][1], "red");
                 Console.WriteLine();
                 Console.WriteLine();
-                Console.WriteLine($" The {Game.character[Game.opponentIndex].name} has been defeated!");
+                Console.WriteLine($" The {Game_old.character[Game_old.opponentIndex].name} has been defeated!");
 
                 // --- Rewards
-                Game.character[0].xpCurrent += 15 + 15 * Game.character[Game.opponentIndex].level;
-                bool lvlup = Game.character[0].CalculateLevel();
+                Game_old.character[0].xpCurrent += 15 + 15 * Game_old.character[Game_old.opponentIndex].level;
+                bool lvlup = Game_old.character[0].CalculateLevel();
                 if (lvlup) { Console.WriteLine(); } 
-                Game.character[0].xpBpCurrent += 100;
-                lvlup = Game.character[0].CalculateLevel();
+                Game_old.character[0].xpBpCurrent += 100;
+                lvlup = Game_old.character[0].CalculateLevel();
                 if (lvlup) { Console.WriteLine(); }
-                Console.Write($" Acquired {15 + 15 * Game.character[Game.opponentIndex].level} XP, 100 Battle Pass XP");
-                Tool.GenerateLoot(Game.character[Game.opponentIndex].name);
-                Game.menuCurrent = "exploration";
+                Console.Write($" Acquired {15 + 15 * Game_old.character[Game_old.opponentIndex].level} XP, 100 Battle Pass XP");
+                Tool.GenerateLoot(Game_old.character[Game_old.opponentIndex].name);
+                Game_old.menuCurrent = "exploration";
 
                 // --- Removes enemy from the map if it was attacked using 'cheat attack N'
-                if (Game.mapCurrent[Game.characterLocation[Game.opponentIndex][0]][Game.characterLocation[Game.opponentIndex][1]] != "Pl")
+                if (Game_old.mapCurrent[Game_old.characterLocation[Game_old.opponentIndex][0]][Game_old.characterLocation[Game_old.opponentIndex][1]] != "Pl")
                 {
-                    Game.mapCurrent[Game.characterLocation[Game.opponentIndex][0]][Game.characterLocation[Game.opponentIndex][1]] = "  ";
+                    Game_old.mapCurrent[Game_old.characterLocation[Game_old.opponentIndex][0]][Game_old.characterLocation[Game_old.opponentIndex][1]] = "  ";
                 }
 
                 // --- Deletes enemy
-                Game.character[Game.opponentIndex] = null;
-                Game.characterLocation[Game.opponentIndex] = null;
+                Game_old.character[Game_old.opponentIndex] = null;
+                Game_old.characterLocation[Game_old.opponentIndex] = null;
 
                 Console.Write("\n Press Enter to continue ");
                 Console.ReadLine();
@@ -698,18 +708,18 @@ namespace Fallin
             float block = 1, attackLast;
             Random rnd = new Random();
             // --- Dodge check
-            if (rnd.Next(0, 100) > 20 + Game.character[indexDefender].agility * 3 - Game.character[indexAttacker].perception * 3)
+            if (rnd.Next(0, 100) > 20 + Game_old.character[indexDefender].agility * 3 - Game_old.character[indexAttacker].perception * 3)
             {
                 // --- Crit check
-                if (rnd.Next(0, 100) < Game.character[indexAttacker].luck * 3) { crit = 2; }
+                if (rnd.Next(0, 100) < Game_old.character[indexAttacker].luck * 3) { crit = 2; }
                 // --- Blocking check
                 if (isBlocking) { block = 0.25f; }
-                attackLast = MathF.Round(Game.character[indexAttacker].attack * crit * attackPower * block * rnd.Next(75, 126) / 100 - Game.character[indexDefender].armor);
-                Game.character[indexDefender].health -= attackLast;
+                attackLast = MathF.Round(Game_old.character[indexAttacker].attack * crit * attackPower * block * rnd.Next(75, 126) / 100 - Game_old.character[indexDefender].armor);
+                Game_old.character[indexDefender].health -= attackLast;
                 if (crit > 1) { Console.Write(" Critical hit!"); }
                 if (indexAttacker == 0)
                 {
-                    Console.Write($" {Game.character[indexDefender].name} takes {attackLast} point(s) of damage");
+                    Console.Write($" {Game_old.character[indexDefender].name} takes {attackLast} point(s) of damage");
                     Tool.Dots(800);
                 }
                 else
@@ -722,12 +732,12 @@ namespace Fallin
             {
                 if (indexAttacker == 0) 
                 { 
-                    Console.Write($" {Game.character[indexDefender].name} evades your attack");
+                    Console.Write($" {Game_old.character[indexDefender].name} evades your attack");
                     Tool.Dots(800);
                 }
                 else 
                 { 
-                    Console.Write($" You evade {Game.character[indexAttacker].name}'s attack");
+                    Console.Write($" You evade {Game_old.character[indexAttacker].name}'s attack");
                     Tool.Dots(800);
                 }
             }
@@ -742,35 +752,35 @@ namespace Fallin
                 switch (direction)
                 {
                     case "up":
-                        goalXY = [Game.characterLocation[index][0] - 1, Game.characterLocation[index][1]];
+                        goalXY = [Game_old.characterLocation[index][0] - 1, Game_old.characterLocation[index][1]];
                         break;
                     case "down":
-                        goalXY = [Game.characterLocation[index][0] + 1, Game.characterLocation[index][1]];
+                        goalXY = [Game_old.characterLocation[index][0] + 1, Game_old.characterLocation[index][1]];
                         break;
                     case "left":
-                        goalXY = [Game.characterLocation[index][0], Game.characterLocation[index][1] - 1];
+                        goalXY = [Game_old.characterLocation[index][0], Game_old.characterLocation[index][1] - 1];
                         break;
                     case "right":
-                        goalXY = [Game.characterLocation[index][0], Game.characterLocation[index][1] + 1];
+                        goalXY = [Game_old.characterLocation[index][0], Game_old.characterLocation[index][1] + 1];
                         break;
                 }
-                string goal = Game.mapCurrent[goalXY[0]][goalXY[1]];
+                string goal = Game_old.mapCurrent[goalXY[0]][goalXY[1]];
                 if (!Map_old.walls.Contains(goal))
                 {
                     // --- Enemy detection
                     if (CharInfo.nameMap.Contains(goal))
                     {
-                        Game.menuCurrent = "fight";
+                        Game_old.menuCurrent = "fight";
                         if (index == 0)
                         {
-                            Game.opponentIndex = Tool.IndexOfArray(Game.characterLocation, goalXY);
+                            Game_old.opponentIndex = Tool.IndexOfArray(Game_old.characterLocation, goalXY);
                             Console.Write($" You approach the {CharInfo.name[Array.IndexOf(CharInfo.nameMap, goal)]}");
                             Tool.Dots(800);
                         }
                         else 
                         {
-                            Game.opponentIndex = index;
-                            Console.Write($" The {CharInfo.name[Array.IndexOf(CharInfo.nameMap, Game.mapCurrent [Game.characterLocation[index][0]] [Game.characterLocation[index][1]] )]} approaches you");
+                            Game_old.opponentIndex = index;
+                            Console.Write($" The {CharInfo.name[Array.IndexOf(CharInfo.nameMap, Game_old.mapCurrent [Game_old.characterLocation[index][0]] [Game_old.characterLocation[index][1]] )]} approaches you");
                             Tool.Dots(800);
                         }
                     }
@@ -783,27 +793,27 @@ namespace Fallin
                         }
                         else
                         {
-                            Console.Write($" The {CharInfo.name[Array.IndexOf(CharInfo.nameMap, Game.mapCurrent[Game.characterLocation[index][0]][Game.characterLocation[index][1]])]} moves {direction}");
+                            Console.Write($" The {CharInfo.name[Array.IndexOf(CharInfo.nameMap, Game_old.mapCurrent[Game_old.characterLocation[index][0]][Game_old.characterLocation[index][1]])]} moves {direction}");
                             Tool.Dots(300);
                         }
                     }
-                    Game.mapCurrent [Game.characterLocation[index][0]] [Game.characterLocation[index][1]] = Game.mapCurrentUnpopulated [Game.characterLocation[index][0]] [Game.characterLocation[index][1]];
-                    Game.characterLocation[index] = goalXY;
+                    Game_old.mapCurrent [Game_old.characterLocation[index][0]] [Game_old.characterLocation[index][1]] = Game_old.mapCurrentUnpopulated [Game_old.characterLocation[index][0]] [Game_old.characterLocation[index][1]];
+                    Game_old.characterLocation[index] = goalXY;
                     if (!goal.Equals("Pl"))
                     {
-                        Game.mapCurrent[goalXY[0]][goalXY[1]] = Game.character[index].nameShort;
+                        Game_old.mapCurrent[goalXY[0]][goalXY[1]] = Game_old.character[index].nameShort;
                     }
                 }
                 else if (index == 0)
                 {
-                    Game.character[0].health -= 5;
+                    Game_old.character[0].health -= 5;
                     Console.Write(" You bonk into a wall. HP -5");
                     Tool.Dots(800);
                 }
             }
             else if (index == 0)
             {
-                Game.character[0].health -= 5;
+                Game_old.character[0].health -= 5;
                 Console.Write(" You slip on a banana peel. HP -5");
                 Tool.Dots(800);
             }
@@ -947,19 +957,19 @@ namespace Fallin
                 case "Small Rat":
                     if (rnd.Next(0,100) < 50)
                     {
-                        Game.character[0].potionHealth++;
+                        Game_old.character[0].potionHealth++;
                         Console.Write(", Health potion x 1");
                     }
                     break;
 
                 case "Rat":
-                    Game.character[0].potionHealth++;
+                    Game_old.character[0].potionHealth++;
                     Console.Write(", Health potion x 1");
                     break;
 
                 case "Big Rat":
-                    Game.character[0].potionHealth += 2;
-                    Game.character[0].key++;
+                    Game_old.character[0].potionHealth += 2;
+                    Game_old.character[0].key++;
                     Console.Write(", Health potion x 2, Key");
                     break;
 
@@ -983,7 +993,7 @@ namespace Fallin
     }
 
 
-    public static class Game
+    public static class Game_old
     {
         public static string[][] mapCurrent, mapCurrentUnpopulated;
         public static bool gameOn = true, roundOn = true;
@@ -1111,7 +1121,7 @@ namespace Fallin
         public int id, level, specialLeft, xpCurrent = 0, xpMax, money = 0, xpBpCurrent = 0, levelBp = 0, armor, 
             strength, perception, endurance, charisma, intelligence, agility, luck;
         public float attackMultiplier, hpMultiplier, health, healthMax, attack;
-        public bool[] colorNameAvailable = [true, false, false, false, false, // Game.color
+        public bool[] colorNameAvailable = [true, false, false, false, false, // Game_old.color
                                             false, false, false, false, false, 
                                             false, false, false, false, false, 
                                             false];
@@ -1178,23 +1188,23 @@ namespace Fallin
                 {
                     case 1:
                         colorNameAvailable[3] = true;
-                        Console.Write($" {Game.color[3]} name color available!");
+                        Console.Write($" {Game_old.color[3]} name color available!");
                         break;
                     case 2:
                         colorNameAvailable[14] = true;
-                        Console.Write($" {Game.color[14]} name color available!");
+                        Console.Write($" {Game_old.color[14]} name color available!");
                         break;
                     case 3:
                         colorNameAvailable[13] = true;
-                        Console.Write($" {Game.color[13]} name color available!");
+                        Console.Write($" {Game_old.color[13]} name color available!");
                         break;
                     case 4:
                         colorNameAvailable[4] = true;
-                        Console.Write($" {Game.color[4]} name color available!");
+                        Console.Write($" {Game_old.color[4]} name color available!");
                         break;
                     case 5:
                         colorNameAvailable[15] = true;
-                        Console.Write($" {Game.color[15]} name color available!");
+                        Console.Write($" {Game_old.color[15]} name color available!");
                         break;
                     default:
                         Console.Write(" No reward here yet!");
@@ -1255,15 +1265,15 @@ namespace Fallin
             Console.WriteLine(" ╠══════════╬══════════╬══════════╬══════════╬══════════╣");
 
             Console.Write(" ║");
-            Tool.WriteColored("Name Color", Game.color[3]);
+            Tool.WriteColored("Name Color", Game_old.color[3]);
             Console.Write("║");
-            Tool.WriteColored("Name Color", Game.color[14]);
+            Tool.WriteColored("Name Color", Game_old.color[14]);
             Console.Write("║");
-            Tool.WriteColored("Name Color", Game.color[13]);
+            Tool.WriteColored("Name Color", Game_old.color[13]);
             Console.Write("║");
-            Tool.WriteColored("Name Color", Game.color[4]);
+            Tool.WriteColored("Name Color", Game_old.color[4]);
             Console.Write("║");
-            Tool.WriteColored("Name Color", Game.color[15]);
+            Tool.WriteColored("Name Color", Game_old.color[15]);
             Console.WriteLine("║");
 
             Console.WriteLine(" ╚══════════╩══════════╩══════════╩══════════╩══════════╝");
