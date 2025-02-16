@@ -5,8 +5,8 @@ namespace Fallin.Characters
 {
     public abstract class Character
     {
-        public required string Name { get; init; }
-        public required string NameMap { get; init; }
+        public string Name { get; init; }
+        public string NameMap { get; init; }
         public string NameColor { get; protected set; }
 
         private int health;
@@ -17,10 +17,10 @@ namespace Fallin.Characters
                 if (health <= 0) { Death(); }
             }
         }
-        public required int HealthMultiplier { get; init; }
-        public int HealthMax => (50 + 10 * Level + 10 * Endurance) * HealthMultiplier;
-        public required int AttackMultiplier { get; init; }
-        public int Attack => (4 * Strength + 2 * Agility) * AttackMultiplier;
+        public float HealthMultiplier { get; init; }
+        public int HealthMax => (int)Math.Round((50 + 10 * Level + 10 * Endurance) * HealthMultiplier);
+        public float AttackMultiplier { get; init; }
+        public int Attack => (int)Math.Round((4 * Strength + 2 * Agility) * AttackMultiplier);
         public int Armor => Endurance;
 
         public bool IsAlive => Health > 0;
@@ -38,17 +38,23 @@ namespace Fallin.Characters
         public (int x, int y) Position { get; set; }
 
 
-        protected Character(int level, string nameColor, int s, int p, int e, int c, int i, int a, int l)
+        protected Character(CharacterProperties props)
         {
-            Level = level;
-            NameColor = nameColor;
-            Strength = s;
-            Perception = p;
-            Endurance = e;
-            Charisma = c;
-            Intelligence = i;
-            Agility = a;
-            Luck = l;
+            Level = props.Level;
+            Name = props.Name;
+            NameMap = props.NameMap;
+            NameColor = props.NameColor;
+
+            Strength = props.Strength;
+            Perception = props.Perception;
+            Endurance = props.Endurance;
+            Charisma = props.Charisma;
+            Intelligence = props.Intelligence;
+            Agility = props.Agility;
+            Luck = props.Luck;
+
+            HealthMultiplier = props.HealthMultiplier;
+            AttackMultiplier = props.AttackMultiplier;
 
             Health = HealthMax;
         }

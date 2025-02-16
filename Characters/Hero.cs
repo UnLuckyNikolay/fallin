@@ -15,16 +15,29 @@ namespace Fallin.Characters
         }
         public int SpecialLeft { get; private set; }
 
-        private Inventory inventory = new Inventory();
+        private readonly Inventory inventory = new();
 
 
-        protected Hero(GameStateManager gst, string name) : base(1, "White", 3, 3, 3, 3, 3, 3, 3)
+        public Hero(GameStateManager gst, string name) : 
+        base(new CharacterProperties{
+            Level = 1,
+            Name = name,
+            NameMap = "Pl",
+            NameColor = "white",
+
+            Strength = 3,
+            Perception = 3,
+            Endurance = 3,
+            Charisma = 3,
+            Intelligence = 3,
+            Agility = 3,
+            Luck = 3,
+
+            HealthMultiplier = 1,
+            AttackMultiplier = 1
+        })
         {
             gst.SetPlayerReference(this);
-            Name = name;
-            NameMap = "Pl";
-            HealthMultiplier = 1;
-            AttackMultiplier = 1;
         }
 
 

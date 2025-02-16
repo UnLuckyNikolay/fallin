@@ -6,8 +6,8 @@ namespace Fallin.Characters
     {
         public required Dictionary<Item, int> LootTable { get; init; }
 
-        protected Enemy(GameStateManager gst, int level, string nameColor, int s, int p, int e, int c, int i, int a, int l) :
-        base(level, nameColor, s, p, e, c, i, a, l)
+        protected Enemy(GameStateManager gst, CharacterProperties props) :
+        base(props)
         {
             gst.AddEnemyReference(this);
         }
