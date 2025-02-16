@@ -22,13 +22,13 @@ namespace Fallin.MapSystem
             {
                 for (int j = 0; j < x; j++)
                 {
-                    if (walls[x][y] == "  ")
+                    if (walls[j][i] == "  ")
                     {
-                        MapCurrent[x, y] = new Cell(false);
+                        MapCurrent[j, i] = new Cell(false);
                     }
                     else
                     {
-                        MapCurrent[x,y] = new Cell(true);
+                        MapCurrent[j, i] = new Cell(true);
                     }
                 }
             }
