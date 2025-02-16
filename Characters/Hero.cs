@@ -18,8 +18,9 @@ namespace Fallin.Characters
         private Inventory inventory = new Inventory();
 
 
-        protected Hero(string name) : base(1, "White", 3, 3, 3, 3, 3, 3, 3)
+        protected Hero(GameStateManager gst, string name) : base(1, "White", 3, 3, 3, 3, 3, 3, 3)
         {
+            gst.SetPlayerReference(this);
             Name = name;
             NameMap = "Pl";
             HealthMultiplier = 1;
