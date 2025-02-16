@@ -5,6 +5,7 @@ namespace Fallin.MapSystem
     public sealed class Cell
     {
         public bool IsWall { get; init; }
+        public bool HasEnemy => character != null && character is Enemy;
         private Character? character = null;
 
 
@@ -41,11 +42,6 @@ namespace Fallin.MapSystem
         public void RemoveCharacter()
         {
             character = null;
-        }
-
-        public bool CheckForEnemy()
-        {
-            return character != null && character is Enemy; 
         }
     }
 }
