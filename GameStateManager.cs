@@ -8,15 +8,14 @@ namespace Fallin
         public List<Enemy> Enemies { get; private set; } = [];
 
 
-        // ADD CONSTRUCTOR WHICH WILL REQUIRE GAME CLASS
-
-
         public void SetPlayerReference(Hero player)
+        // Used in Hero constructor
         {
             Player = player;
         }
 
         public void AddEnemyReference(Enemy enemy)
+        // Used in Enemy constructor
         {
             Enemies.Add(enemy);
         }
