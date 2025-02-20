@@ -103,14 +103,15 @@ namespace Fallin
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        public static void Dots(int duration)
+        public static void Dots(int dotDuration=300, int dotsAmount=3)
         {
-            Console.Write(".");
-            Thread.Sleep(duration);
-            Console.Write(".");
-            Thread.Sleep(duration);
+            for (int i = 0; i < dotsAmount - 1; i++)
+            {
+                Console.Write(".");
+                Thread.Sleep(dotDuration); 
+            }
             Console.WriteLine(".");
-            Thread.Sleep(duration);
+            Thread.Sleep(dotDuration);
         }
     }
 }
