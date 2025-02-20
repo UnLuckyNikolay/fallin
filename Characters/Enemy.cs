@@ -11,5 +11,15 @@ namespace Fallin.Characters
         {
             gst.AddEnemyReference(this);
         }
+
+
+        public void WriteAttributes()
+        {
+            Console.Write(" --<");
+            Tool.WriteColored(Name, NameColor);
+            Console.WriteLine(">--");
+            Console.WriteLine($" Level: {Level}");
+            Console.WriteLine($" Health Points: {Health}/{HealthMax}");
+        }
     }
 }
