@@ -36,28 +36,49 @@ namespace Fallin.MapSystem
         }
 
 
-        public void MoveHero(Hero hero, string direction)
+        public void MoveHero(Hero player, string direction)
         {
-            (int x, int y) position = hero.Position;
+            bool bananaSlip = false;
+            (int x, int y) position = player.Position;
             switch (direction)
             {
+                case "north":
                 case "up":
                     position.x += 1;
                     break;
+
+                case "south":
                 case "down":
                     position.x -= 1;
                     break;
+
+                case "west":
                 case "left":
                     position.y -= 1;
                     break;
+
+                case "east":
                 case "right":
                     position.y += 1;
                     break;
+
+                default:
+                    bananaSlip = true;
+                    break;
             }
             Cell cellTarget = MapCurrent[position.x, position.y];
-            if (cellTarget.IsWall)
+
+            if (bananaSlip)
             {
-                // ADD WALL BONK
+                player.Health -= 5;
+                Console.Write(" You slip on a banana peel. HP -5");
+                Utilities.Dots();
+            }
+            else if (cellTarget.IsWall)
+            {
+                player.Health -= 5;
+                Console.Write(" You bonk into a wall. HP -5");
+                Utilities.Dots();
             }
             else if (cellTarget.HasEnemy)
             {
@@ -65,9 +86,12 @@ namespace Fallin.MapSystem
             }
             else
             {
-                MapCurrent[hero.Position.x, hero.Position.y].RemoveCharacter();
-                cellTarget.AddCharacter(hero);
-                hero.Position = position;
+                MapCurrent[player.Position.x, player.Position.y].RemoveCharacter();
+                cellTarget.AddCharacter(player);
+                player.Position = position;
+
+                Console.Write($" You move {direction}");
+                Utilities.Dots();
             }
         }
 
