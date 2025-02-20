@@ -35,7 +35,7 @@ namespace Fallin.Characters
         public int Luck { get; protected set; }
 
         protected Map? mapCurrent;
-        public (int x, int y) Position { get; set; }
+        public (int y, int x) Position { get; set; }
 
 
         protected Character(CharacterProperties props)

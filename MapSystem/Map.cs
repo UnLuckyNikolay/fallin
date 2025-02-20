@@ -7,6 +7,7 @@ namespace Fallin.MapSystem
         public Cell[,] MapCurrent { get; protected set; }
         private int id;
     
+    
         public Map(int overrideId = -1)
         {
             id = overrideId;
@@ -17,19 +18,19 @@ namespace Fallin.MapSystem
             string[][] walls = MapLibrary.GetMap(id);
             int x = walls[0].Length;
             int y = walls.Length;
-            MapCurrent = new Cell[x,y];
+            MapCurrent = new Cell[y,x];
 
             for (int i = 0; i < y; i++)
             {
                 for (int j = 0; j < x; j++)
                 {
-                    if (walls[j][i] == "  ")
+                    if (walls[i][j] == "  ")
                     {
-                        MapCurrent[j, i] = new Cell(false);
+                        MapCurrent[i, j] = new Cell(false);
                     }
                     else
                     {
-                        MapCurrent[j, i] = new Cell(true);
+                        MapCurrent[i, j] = new Cell(true);
                     }
                 }
             }
@@ -39,34 +40,34 @@ namespace Fallin.MapSystem
         public void MoveHero(Hero player, string direction)
         {
             bool bananaSlip = false;
-            (int x, int y) position = player.Position;
+            (int y, int x) position = player.Position;
             switch (direction)
             {
                 case "north":
                 case "up":
-                    position.x += 1;
+                    position.y -= 1;
                     break;
 
                 case "south":
                 case "down":
-                    position.x -= 1;
+                    position.y += 1;
                     break;
 
                 case "west":
                 case "left":
-                    position.y -= 1;
+                    position.x -= 1;
                     break;
 
                 case "east":
                 case "right":
-                    position.y += 1;
+                    position.x += 1;
                     break;
 
                 default:
                     bananaSlip = true;
                     break;
             }
-            Cell cellTarget = MapCurrent[position.x, position.y];
+            Cell cellTarget = MapCurrent[position.y, position.x];
 
             if (bananaSlip)
             {
@@ -86,7 +87,7 @@ namespace Fallin.MapSystem
             }
             else
             {
-                MapCurrent[player.Position.x, player.Position.y].RemoveCharacter();
+                MapCurrent[player.Position.y, player.Position.x].RemoveCharacter();
                 cellTarget.AddCharacter(player);
                 player.Position = position;
 
@@ -97,12 +98,12 @@ namespace Fallin.MapSystem
 
         public void DrawMap()
         {
-            for (int x = 0; x < MapCurrent.GetLength(0); x++)
+            for (int y = 0; y < MapCurrent.GetLength(0); y++)
             {
                 Console.Write("  ");
-                for (int y = 0; y < MapCurrent.GetLength(1); y++)
+                for (int x = 0; x < MapCurrent.GetLength(1); x++)
                 {
-                    MapCurrent[x, y].DrawCell();
+                    MapCurrent[y, x].DrawCell();
                 }
                 Console.WriteLine();
             }
