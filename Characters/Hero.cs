@@ -1,4 +1,5 @@
 using Fallin.InventorySystem;
+using Fallin.MapSystem;
 
 namespace Fallin.Characters
 {
@@ -9,11 +10,13 @@ namespace Fallin.Characters
         public int Experience {
             get => experience;
             set {
-                experience = value;
+                experience = Math.Max(value, 0);
                 while (experience >= ExperienceMax) { LevelUp(); }
             }
         }
-        public int SpecialLeft { get; private set; }
+        public int SpecialLeft { get; protected set; }
+        public int Money { get; set; }
+        public Map? CurrentMap;
 
         private readonly Inventory inventory = new();
 
@@ -47,6 +50,8 @@ namespace Fallin.Characters
             SpecialLeft += 3;
             Level++;
             HealFull();
+            
+            Console.Write(" LEVEL UP! 3 new Special points available!");
         }
 
         public void HealFull()
@@ -54,21 +59,22 @@ namespace Fallin.Characters
             Health = HealthMax;
         }
 
-        public void TryUsingItem(string itemName, Character target)
+        public void UseItem(string itemName, Character target)
         {
             bool isSuccessful = inventory.TryUsingItem(itemName, target);
             if (isSuccessful)
             {
                 if (target is not Hero)
                 {
-                    Console.WriteLine($"Used {itemName} on {target.Name}");
+                    Console.Write($"Used {itemName} on {target.Name}");
                 }
                 else
                 {
-                    Console.WriteLine($"Used {itemName}"); 
+                    Console.Write($"Used {itemName}"); 
                 }
             }
-            else { Console.WriteLine("Item not found!"); }
+            else { Console.Write("Item not found!"); }
+            Utilities.Dots();
         }
 
         public void PickupItem(Item item)
@@ -78,12 +84,97 @@ namespace Fallin.Characters
 
         public void Move(string direction)
         {
-            // ADD MOVEMENT
+            CurrentMap?.MoveHero(this, direction);
+        }
+
+        public void IncreaseSpecial(string specialName)
+        {
+            switch (specialName)
+            {
+                case "s":
+                case "strength":
+                    Strength++;
+                    SpecialLeft--;
+                    Console.Write(" Strength increased!");
+                    break;
+                    
+                case "p":
+                case "perception":
+                    Perception++;
+                    SpecialLeft--;
+                    Console.Write(" Perception increased!");
+                    break;
+
+                case "e":
+                case "endurance":
+                    Endurance++;
+                    SpecialLeft--;
+                    Console.Write(" Endurance increased!");
+                    break;
+
+                case "c":
+                case "charisma":
+                    Charisma++;
+                    SpecialLeft--;
+                    Console.Write(" Charisma increased!");
+                    break;
+
+                case "i":
+                case "intelligence":
+                    Intelligence++;
+                    SpecialLeft--;
+                    Console.Write(" Intelligence increased!");
+                    break;
+
+                case "a":
+                case "agility":
+                    Agility++;
+                    SpecialLeft--;
+                    Console.Write(" Agility increased!");
+                    break;
+
+                case "l":
+                case "luck":
+                    Luck++;
+                    SpecialLeft--;
+                    Console.Write(" Luck increased!");
+                    break;
+
+
+                default:
+                    Console.Write(" Invalid input.");
+                    break;
+            }
         }
 
         public override void Death()
         {
             Console.WriteLine("The brave hero is lying defeated!");
+        }
+
+
+        public void WriteAttributes()
+        {
+            Console.Write(" --<");
+            Tool.WriteColored(Name, NameColor);
+            Console.WriteLine(">--");
+
+            Console.WriteLine($" Level: {Level}, experience: {Experience}/{ExperienceMax}");
+            Console.WriteLine($" Health Points: {Health}/{HealthMax}");
+            Console.WriteLine($" Money: {Money}");
+        }
+
+        public void WriteSpecial()
+        {
+            Console.WriteLine(" --<S.P.E.C.I.A.L.>--");
+            Console.WriteLine($" Strength: {Strength}");
+            Console.WriteLine($" Perception: {Perception}");
+            Console.WriteLine($" Endurance: {Endurance}");
+            Console.WriteLine($" Charisma: {Charisma}");
+            Console.WriteLine($" Intelligence: {Intelligence}");
+            Console.WriteLine($" Agility: {Agility}");
+            Console.WriteLine($" Luck: {Luck}");
+            if (SpecialLeft > 0) { Console.WriteLine($" You have {SpecialLeft} spare points."); }
         }
     }
 }
