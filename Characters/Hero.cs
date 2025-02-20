@@ -95,49 +95,49 @@ namespace Fallin.Characters
                 case "strength":
                     Strength++;
                     SpecialLeft--;
-                    Console.Write(" Strength increased!");
+                    Console.Write($" Strength increased to {Strength}!");
                     break;
                     
                 case "p":
                 case "perception":
                     Perception++;
                     SpecialLeft--;
-                    Console.Write(" Perception increased!");
+                    Console.Write($" Perception increased to {Perception}!");
                     break;
 
                 case "e":
                 case "endurance":
                     Endurance++;
                     SpecialLeft--;
-                    Console.Write(" Endurance increased!");
+                    Console.Write($" Endurance increased to {Endurance}!");
                     break;
 
                 case "c":
                 case "charisma":
                     Charisma++;
                     SpecialLeft--;
-                    Console.Write(" Charisma increased!");
+                    Console.Write($" Charisma increased to {Charisma}!");
                     break;
 
                 case "i":
                 case "intelligence":
                     Intelligence++;
                     SpecialLeft--;
-                    Console.Write(" Intelligence increased!");
+                    Console.Write($" Intelligence increased to {Intelligence}!");
                     break;
 
                 case "a":
                 case "agility":
                     Agility++;
                     SpecialLeft--;
-                    Console.Write(" Agility increased!");
+                    Console.Write($" Agility increased to {Agility}!");
                     break;
 
                 case "l":
                 case "luck":
                     Luck++;
                     SpecialLeft--;
-                    Console.Write(" Luck increased!");
+                    Console.Write($" Luck increased to {Luck}!");
                     break;
 
 
@@ -149,7 +149,7 @@ namespace Fallin.Characters
 
         public override void Death()
         {
-            Console.WriteLine("The brave hero is lying defeated!");
+            Console.WriteLine("The brave hero is lying defeated!"); // ADD DEATH
         }
 
 
@@ -175,6 +175,12 @@ namespace Fallin.Characters
             Console.WriteLine($" Agility: {Agility}");
             Console.WriteLine($" Luck: {Luck}");
             if (SpecialLeft > 0) { Console.WriteLine($" You have {SpecialLeft} spare points."); }
+        }
+    
+        public void WriteInventory()
+        {
+            Console.WriteLine(" --<Inventory>--");
+            inventory.WriteItems();
         }
     }
 }

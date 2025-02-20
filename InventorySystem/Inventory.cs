@@ -5,6 +5,7 @@ namespace Fallin.InventorySystem
     public sealed class Inventory
     {
         private readonly List<Item> items = [];
+        public int Count => items.Count();
 
         public void AddItem(Item item)
         {
@@ -31,6 +32,18 @@ namespace Fallin.InventorySystem
         public bool HasItem(string name)
         {
             return items.Find(itemSearched => itemSearched.Name.ToLower() == name.ToLower()) != null;
+        }
+
+        public void WriteItems()
+        {
+            if (Count == 0) { Console.WriteLine(" Quite empty in here for now"); }
+            else
+            {
+                foreach (Item item in items)
+                {
+                    Console.WriteLine($" {item.Name} x {item.Quantity}");
+                }
+            }
         }
     }
 }
