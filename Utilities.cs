@@ -113,5 +113,18 @@ namespace Fallin
             Console.WriteLine(".");
             Thread.Sleep(dotDuration);
         }
+
+        public static void ShuffleArray<T>(T[] array)
+        {
+            Random rng = new();
+            int n = array.Length;
+            while (n > 1)
+            {
+                int k = rng.Next(n--);
+                T temp = array[n];
+                array[n] = array[k];
+                array[k] = temp;
+            }
+        }
     }
 }
