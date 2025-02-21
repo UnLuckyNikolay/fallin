@@ -37,7 +37,7 @@ namespace Fallin
             }
             Player = new(GSM, playerName);
 
-            Map = new(1);
+            Map = new();
             Player.CurrentMap = Map;
             Map.Spawn(Player);
 
@@ -86,7 +86,7 @@ namespace Fallin
                     Player.WriteAttributes();
                     Console.WriteLine();
                     Player.WriteSpecial();
-                    Console.Write(" Choose the next (S/P/E/C/I/A/L) to upgrade: ");
+                    Console.Write("\n Choose the next (S/P/E/C/I/A/L) to upgrade: ");
                     break;
 
                 case GameState.Inventory:

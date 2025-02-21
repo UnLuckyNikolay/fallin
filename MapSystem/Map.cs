@@ -92,7 +92,7 @@ namespace Fallin.MapSystem
                 player.Position = position;
 
                 Console.Write($" You move {direction}");
-                Utilities.Dots();
+                Utilities.Dots(400);
             }
         }
 

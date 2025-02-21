@@ -43,6 +43,9 @@ namespace Fallin
     {
         static void Main(string[] args)
         {
+            Game game = new();
+            game.Run();
+            
             while (Game_old.gameOn)
             {
                 Console.Clear();
@@ -72,7 +75,7 @@ namespace Fallin
                 Console.Write(" Write the character name: ");
                 while (naming)
                 {
-                    player.name = Console.ReadLine();
+                    player.name = Console.ReadLine() ?? "";
                     if (player.name != "")
                     {
                         naming = false;

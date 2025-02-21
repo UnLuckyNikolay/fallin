@@ -103,7 +103,7 @@ namespace Fallin
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        public static void Dots(int dotDuration=300, int dotsAmount=3)
+        public static void Dots(int dotDuration=800, int dotsAmount=3)
         {
             for (int i = 0; i < dotsAmount - 1; i++)
             {
