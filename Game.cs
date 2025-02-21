@@ -1,4 +1,5 @@
 using Fallin.Characters;
+using Fallin.Characters.Enemies;
 using Fallin.MapSystem;
 
 namespace Fallin
@@ -40,6 +41,8 @@ namespace Fallin
             Map = new();
             Player.CurrentMap = Map;
             Map.SpawnHeroAtRandomPosition(Player);
+
+            GSM.Enemies.Add(new SmallRat(GSM));
 
             // ADD enemy spawns
         }
