@@ -5,11 +5,12 @@ namespace Fallin.InventorySystem
     public abstract class Item
     {
         public string Name { get; }
-        public int Quantity = 1;
+        public int Quantity;
 
-        protected Item(string name)
+        protected Item(string name, int quantity=1)
         {
             Name = name;
+            Quantity = quantity;
         }
 
 

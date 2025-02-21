@@ -6,8 +6,8 @@ namespace Fallin.InventorySystem.Items
 {
     public class PotionHealth : Item
     {
-        public PotionHealth() : 
-        base("Health Potion")
+        public PotionHealth(int quantity=1) : 
+        base("Health Potion", quantity)
         {
         }
 
