@@ -1,11 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Numerics;
-using System.Reflection.Metadata;
-using System.Runtime;
-using System.Security.Cryptography.X509Certificates;
-using System.Xml.Linq;
-using Fallin.Characters;
+﻿using Fallin.Characters;
 using Fallin.MapSystem;
 
 // DONE --- Possibly remove player.location, only use Game_old.characterLocation
@@ -45,17 +38,9 @@ namespace Fallin
         {
             Game game = new();
             game.Run();
-            
+
             while (Game_old.gameOn)
             {
-                Console.Clear();
-                GameStateManager GSM = new();
-                Hero Player = new(GSM, "Bred");
-                Map mapTest = new(0);
-                mapTest.Spawn(Player);
-                mapTest.DrawMap();
-                Console.ReadLine();
-
                 Game_old.roundOn = true;
                 Random rnd = new Random();
                 Console.WriteLine(" Welcome to Fallin.");

@@ -39,7 +39,7 @@ namespace Fallin
 
             Map = new();
             Player.CurrentMap = Map;
-            Map.Spawn(Player);
+            Map.SpawnHeroAtRandomPosition(Player);
 
             // ADD enemy spawns
         }

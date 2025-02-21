@@ -109,11 +109,45 @@ namespace Fallin.MapSystem
             }
         }
 
-        public void Spawn(Character character)
+        protected bool Spawn(Character character)
         {
-            int[] position = MapLibrary.GetRandomSpawn(id);
-            character.Position = (position[0], position[1]);
-            MapCurrent[position[0], position[1]].AddCharacter(character);
+            int[][] spawns = MapLibrary.GetSpawns(id);
+            Utilities.ShuffleArray(spawns);
+            for (int i = 0; i < spawns.Length; i++)
+            {
+                Cell target = MapCurrent[spawns[i][0], spawns[i][1]];
+                if (!target.IsWall && !target.HasEnemy)
+                {
+                    target.AddCharacter(character);
+                    character.Position = (spawns[i][0], spawns[i][1]);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Used to spawn player at the start of the round at random point, assumes there is a free spawn point
+        /// </summary>
+        /// <param name="player"></param>
+        public void SpawnHeroAtRandomPosition(Hero player)
+        {
+            Spawn(player);
+        }
+
+        /// <summary>
+        /// Used to spawn enemies at random points, deletes the enemy and prints the name of it if spawn fails
+        /// </summary>
+        /// <param name="enemy"></param>
+        public void TrySpawnEnemyAtRandomPosition(Enemy enemy)
+        {
+            bool success = Spawn(enemy);
+            if (!success)
+            {
+                enemy.Remove();
+                Console.WriteLine($" Failed to spawn {enemy.Name}!");
+                Utilities.Dots();
+            }
         }
     }
 }

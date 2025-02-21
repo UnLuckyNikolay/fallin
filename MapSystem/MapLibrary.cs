@@ -45,6 +45,11 @@ namespace Fallin.MapSystem
             return MapSpawns[id][rnd.Next(0, MapSpawns[id].Length)];
         }
 
+        public static int[][] GetSpawns(int id)
+        {
+            return MapSpawns[id];
+        }
+
         public static string[][] GetMap(int id)
         {
             return MapList[id];

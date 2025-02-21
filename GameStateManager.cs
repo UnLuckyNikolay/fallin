@@ -19,5 +19,10 @@ namespace Fallin
         {
             Enemies.Add(enemy);
         }
+
+        public void RemoveEnemyReference(Enemy enemy)
+        {
+            Enemies.Remove(enemy);
+        }
     }
 }
