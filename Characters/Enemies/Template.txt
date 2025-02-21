@@ -1,0 +1,42 @@
+using Fallin.InventorySystem.Items;
+using Fallin.Enums;
+
+namespace Fallin.Characters.Enemies
+{
+    public class ______ : Enemy
+    {
+        public ______(GameStateManager GSM, CharacterProperties props, EnemyProperties eprops) : 
+        base(GSM, new CharacterProperties{
+            Level = ______,
+            Name = "______",
+            NameMap = "______",
+            NameColor = "______",
+
+            Strength = ______,
+            Perception = ______,
+            Endurance = ______,
+            Charisma = ______,
+            Intelligence = ______,
+            Agility = ______,
+            Luck = ______,
+
+            HealthMultiplier = ______,
+            AttackMultiplier = ______
+        }, new EnemyProperties{
+            SpriteAlive = """______""",
+            SpriteDead = """______""",
+            LootTable = new Dictionary<InventorySystem.Item, int>
+            {
+                ______
+            },
+            ResourceTable = new Dictionary<ResourceType, int>
+            {
+                { ResourceType.Experience, ______ },
+                { ResourceType.ExperienceBP, ______ },
+                { ResourceType.Gold, ______ }
+            }
+        })
+        {
+        }
+    }
+}
