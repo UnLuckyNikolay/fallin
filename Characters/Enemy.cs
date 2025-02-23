@@ -31,6 +31,40 @@ namespace Fallin.Characters
             gsm.CurrentMap.TrySpawnEnemyAtRandomPosition(this);
         }
 
+        /// <summary>
+        /// Gives player resources (money, xp, etc) and rolls for items, and prints it out
+        /// </summary>
+        /// <param name="player"></param>
+        public void DropLoot()
+        {
+            if (gsm.Player == null) { return; } // To suppress the warning
+            gsm.Player.Experience += ResourceTable[ResourceType.Experience];
+            gsm.Player.ExperienceBP += ResourceTable[ResourceType.ExperienceBP];
+            gsm.Player.Gold += ResourceTable[ResourceType.Gold];
+
+            Console.WriteLine($" Acquired {ResourceTable[ResourceType.Experience]} experience, " +
+                                        $"{ResourceTable[ResourceType.ExperienceBP]} BP experience, " +
+                                        $"{ResourceTable[ResourceType.Gold]} gold.");
+
+            bool itemDrop = false;
+            Random rnd = new();
+            foreach (KeyValuePair<Item, int> item in LootTable)
+            {
+                int roll = rnd.Next(0, 101);
+                if (roll < item.Value)
+                {
+                    gsm.Player.PickupItem(item.Key);
+                    if (!itemDrop)
+                    {
+                        Console.Write($" Items: {item.Key.Name} x {item.Key.Quantity}");
+                        itemDrop = true;
+                    }
+                    else { Console.Write($", {item.Key.Name} x {item.Key.Quantity}"); }
+                }
+            }
+            if (itemDrop) { Console.WriteLine(); }
+        }
+
         public void WriteAttributes()
         {
             Console.Write(" --<");
@@ -43,6 +77,7 @@ namespace Fallin.Characters
         public override void Death()
         {
             gsm.RemoveEnemyReference(this);
+            DropLoot();
             // ADD loot drops
 
             Console.WriteLine($" {Name} has been killed!");

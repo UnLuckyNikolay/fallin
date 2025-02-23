@@ -163,8 +163,8 @@ namespace Fallin
                     
                 case "gold":
                 case "money":
-                    if (!int.TryParse(commandSplit[2], out int money)) { goto default; }
-                    Player.Money += money;
+                    if (!int.TryParse(commandSplit[2], out int gold)) { goto default; }
+                    Player.Gold += gold;
 
                     Console.Write(" Cheat used! More money added");
                     Utilities.Dots();

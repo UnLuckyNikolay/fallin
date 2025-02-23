@@ -24,9 +24,9 @@ namespace Fallin.Characters
                 while (experienceBP >= 1000) { LevelUpBP(); }
             }
         }
-        
+
         public int SpecialLeft { get; protected set; }
-        public int Money { get; set; }
+        public int Gold { get; set; }
         private GameStateManager gsm;
 
         private readonly Inventory inventory = new();
@@ -187,7 +187,7 @@ namespace Fallin.Characters
 
             Console.WriteLine($" Level: {Level}, experience: {Experience}/{ExperienceMax}");
             Console.WriteLine($" Health Points: {Health}/{HealthMax}");
-            Console.WriteLine($" Money: {Money}");
+            Console.WriteLine($" Money: {Gold}");
         }
 
         public void WriteSpecial()
