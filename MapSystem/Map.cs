@@ -4,7 +4,7 @@ namespace Fallin.MapSystem
 {
     public class Map
     {
-        public Cell[,] MapCurrent { get; protected set; }
+        public Cell[,] Layout { get; protected set; }
         private int id;
     
     
@@ -18,7 +18,7 @@ namespace Fallin.MapSystem
             string[][] walls = MapLibrary.GetMap(id);
             int x = walls[0].Length;
             int y = walls.Length;
-            MapCurrent = new Cell[y,x];
+            Layout = new Cell[y,x];
 
             for (int i = 0; i < y; i++)
             {
@@ -26,11 +26,11 @@ namespace Fallin.MapSystem
                 {
                     if (walls[i][j] == "  ")
                     {
-                        MapCurrent[i, j] = new Cell(false);
+                        Layout[i, j] = new Cell(false);
                     }
                     else
                     {
-                        MapCurrent[i, j] = new Cell(true);
+                        Layout[i, j] = new Cell(true);
                     }
                 }
             }
@@ -67,7 +67,7 @@ namespace Fallin.MapSystem
                     bananaSlip = true;
                     break;
             }
-            Cell cellTarget = MapCurrent[position.y, position.x];
+            Cell cellTarget = Layout[position.y, position.x];
 
             if (bananaSlip)
             {
@@ -87,7 +87,7 @@ namespace Fallin.MapSystem
             }
             else
             {
-                MapCurrent[player.Position.y, player.Position.x].RemoveCharacter();
+                Layout[player.Position.y, player.Position.x].RemoveCharacter();
                 cellTarget.AddCharacter(player);
                 player.Position = position;
 
@@ -98,12 +98,12 @@ namespace Fallin.MapSystem
 
         public void DrawMap()
         {
-            for (int y = 0; y < MapCurrent.GetLength(0); y++)
+            for (int y = 0; y < Layout.GetLength(0); y++)
             {
                 Console.Write("  ");
-                for (int x = 0; x < MapCurrent.GetLength(1); x++)
+                for (int x = 0; x < Layout.GetLength(1); x++)
                 {
-                    MapCurrent[y, x].DrawCell();
+                    Layout[y, x].DrawCell();
                 }
                 Console.WriteLine();
             }
@@ -115,7 +115,7 @@ namespace Fallin.MapSystem
             Utilities.ShuffleArray(spawns);
             for (int i = 0; i < spawns.Length; i++)
             {
-                Cell target = MapCurrent[spawns[i][0], spawns[i][1]];
+                Cell target = Layout[spawns[i][0], spawns[i][1]];
                 if (!target.IsWall && !target.HasEnemy)
                 {
                     target.AddCharacter(character);
