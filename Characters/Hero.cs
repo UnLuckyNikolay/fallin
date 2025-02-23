@@ -14,6 +14,17 @@ namespace Fallin.Characters
                 while (experience >= ExperienceMax) { LevelUp(); }
             }
         }
+
+        public int LevelBP { get; protected set; }
+        private int experienceBP;
+        public int ExperienceBP {
+            get => experienceBP;
+            set {
+                experienceBP = Math.Max(value, 0);
+                while (experienceBP >= 1000) { LevelUpBP(); }
+            }
+        }
+        
         public int SpecialLeft { get; protected set; }
         public int Money { get; set; }
         private GameStateManager gsm;
@@ -53,6 +64,15 @@ namespace Fallin.Characters
             HealFull();
             
             Console.Write(" LEVEL UP! 3 new Special points available!");
+        }
+
+        private void LevelUpBP()
+        {
+            ExperienceBP -= 1000;
+            LevelBP++;
+            // ADD BP unlocks
+
+            // ADD text
         }
 
         public void HealFull()
