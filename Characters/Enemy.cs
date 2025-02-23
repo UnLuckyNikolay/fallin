@@ -26,6 +26,11 @@ namespace Fallin.Characters
         }
 
 
+        public void Spawn()
+        {
+            gsm.CurrentMap.TrySpawnEnemyAtRandomPosition(this);
+        }
+
         public void WriteAttributes()
         {
             Console.Write(" --<");

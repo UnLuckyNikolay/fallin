@@ -17,7 +17,6 @@ namespace Fallin
         private GameState GameStateCurrent = GameState.Map;
         public GameStateManager GSM;
         public Hero Player;
-        public Map Map;
 
         public string commandLast = "";
         public bool GameRunning = true;
@@ -37,10 +36,7 @@ namespace Fallin
                 if (playerName == "") { Console.Write(" Invalid input. Try again: "); }
             }
             Player = new(GSM, playerName);
-
-            Map = new();
-            Player.CurrentMap = Map;
-            Map.SpawnHeroAtRandomPosition(Player);
+            Player.Spawn();
 
             GSM.Enemies.Add(new SmallRat(GSM));
 
@@ -66,7 +62,7 @@ namespace Fallin
                 case GameState.Map:
                     Player.WriteAttributes();
                     Console.WriteLine("\n --<Current map>--");
-                    Map.DrawMap();
+                    GSM.CurrentMap.DrawMap();
                     Console.Write("\n Choose the next command (move (up/down/left/right), character, inventory, exit): ");
                     break;
 

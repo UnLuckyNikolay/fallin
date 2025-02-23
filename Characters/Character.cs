@@ -34,7 +34,6 @@ namespace Fallin.Characters
         public int Agility { get; protected set; }
         public int Luck { get; protected set; }
 
-        protected Map? mapCurrent;
         public (int y, int x) Position { get; set; }
 
 
@@ -65,11 +64,6 @@ namespace Fallin.Characters
         public void TakeDamage(int damage)
         {
             Health -= (damage - Armor);
-        }
-
-        public void SetMapReference(Map map)
-        {
-            mapCurrent = map;
         }
     }
 }

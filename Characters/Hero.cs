@@ -16,12 +16,12 @@ namespace Fallin.Characters
         }
         public int SpecialLeft { get; protected set; }
         public int Money { get; set; }
-        public Map? CurrentMap;
+        private GameStateManager gsm;
 
         private readonly Inventory inventory = new();
 
 
-        public Hero(GameStateManager gst, string name) : 
+        public Hero(GameStateManager GSM, string name) : 
         base(new CharacterProperties{
             Level = 1,
             Name = name,
@@ -40,7 +40,8 @@ namespace Fallin.Characters
             AttackMultiplier = 1
         })
         {
-            gst.SetPlayerReference(this);
+            gsm = GSM;
+            gsm.SetPlayerReference(this);
         }
 
 
@@ -82,9 +83,14 @@ namespace Fallin.Characters
             inventory.AddItem(item);
         }
 
+        public void Spawn()
+        {
+            gsm.CurrentMap.SpawnHeroAtRandomPosition(this);
+        }
+
         public void Move(string direction)
         {
-            CurrentMap?.MoveHero(this, direction);
+            gsm.CurrentMap.MoveHero(this, direction);
         }
 
         public void IncreaseSpecial(string specialName)

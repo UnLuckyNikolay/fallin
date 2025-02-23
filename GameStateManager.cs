@@ -1,4 +1,5 @@
 using Fallin.Characters;
+using Fallin.MapSystem;
 
 namespace Fallin
 {
@@ -6,7 +7,13 @@ namespace Fallin
     {
         public Hero? Player { get; private set; }
         public List<Enemy> Enemies { get; private set; } = [];
+        public Map CurrentMap;
 
+
+        public GameStateManager()
+        {
+            CurrentMap = new();
+        }
 
         public void SetPlayerReference(Hero player)
         // Used in Hero constructor
