@@ -49,5 +49,10 @@ namespace Fallin.Characters.Enemies
         })
         {
         }
+
+        public override void Move()
+        {
+            MoveRandomly();
+        }
     }
 }

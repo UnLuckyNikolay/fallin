@@ -52,10 +52,16 @@ namespace Fallin
                     DrawMenu();
                     commandLast = (Console.ReadLine() ?? "").ToLower();
                     ProcessCommand(commandLast);
+
+                    // Player turn is finished by specific commands. At the time of writing - successful movement (moves player or starts a fight)
                 }
+
                 while (!GSM.PlayerTurn)
                 {
-                    // ADD enemy movement
+                    foreach (Enemy enemy in GSM.Enemies)
+                    {
+                        enemy.Move();
+                    }
 
                     GSM.PlayerTurn = true;
                 }

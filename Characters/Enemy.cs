@@ -68,6 +68,30 @@ namespace Fallin.Characters
             if (itemDrop) { Console.WriteLine(); }
         }
 
+        /// <summary>
+        /// Should have one of the available Moves. Currently: MoveRandomly()
+        /// </summary>
+        public abstract void Move();
+
+        /// <summary>
+        /// Tries to move the enemy in a random direction. If the move fails - tries one more time in the opposite direction
+        /// </summary>
+        public void MoveRandomly()
+        {
+            string[] directions = ["up", "right", "down", "left"];
+            Random rnd = new();
+            int dir = rnd.Next(0, 4);
+
+            bool success = gsm.CurrentMap.MoveEnemy(this, directions[dir]);
+            if (!success)
+            {
+                dir += 2;
+                if (dir > 3) { dir -= 4; } // Going to the opposite direction in the list
+
+                gsm.CurrentMap.MoveEnemy(this, directions[dir]);
+            }
+        }
+
         public void WriteAttributes()
         {
             Console.Write(" --<");

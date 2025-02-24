@@ -36,9 +36,57 @@ namespace Fallin.MapSystem
             }
         }
 
+        /// <summary>
+        /// Used to move enemy, returns true if movement was successful
+        /// </summary>
+        public bool MoveEnemy(Enemy enemy, string direction)
+        {
+            (int y, int x) position = enemy.Position;
+            switch (direction)
+            {
+                case "up":
+                    position.y -= 1;
+                    break;
+
+                case "down":
+                    position.y += 1;
+                    break;
+
+                case "left":
+                    position.x -= 1;
+                    break;
+
+                case "right":
+                    position.x += 1;
+                    break;
+
+                default:
+                    return false;
+            }
+            Cell cellTarget = Layout[position.y, position.x];
+
+            if (cellTarget.IsWall || cellTarget.HasEnemy) 
+            { 
+                return false; 
+            }
+            else if (cellTarget.HasHero)
+            {
+                // ADD fight
+
+                return true;
+            }
+            else
+            {
+                Layout[enemy.Position.y, enemy.Position.x].RemoveCharacter();
+                cellTarget.AddCharacter(enemy);
+                enemy.Position = position;
+
+                return true;
+            }
+        }
 
         /// <summary>
-        /// Returns true if movement was successful
+        /// Used to move hero, returns true if movement was successful
         /// </summary>
         public bool MoveHero(Hero player, string direction)
         {

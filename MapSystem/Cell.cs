@@ -6,6 +6,7 @@ namespace Fallin.MapSystem
     {
         public bool IsWall { get; init; }
         public bool HasEnemy => character != null && character is Enemy;
+        public bool HasHero => character != null && character is Hero;
         private Character? character = null;
 
 
