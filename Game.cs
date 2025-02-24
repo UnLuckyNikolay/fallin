@@ -38,6 +38,15 @@ namespace Fallin
             Player.Spawn();
 
             GSM.Enemies.Add(new SmallRat(GSM));
+            GSM.Enemies.Add(new SmallRat(GSM));
+            GSM.Enemies.Add(new SmallRat(GSM));
+            GSM.Enemies.Add(new SmallRat(GSM));
+
+            for (int i = GSM.Enemies.Count - 1; i >= 0; i--)   // Iterating backwards bcs if spawn fails - enemy is immediately removed
+            {
+                GSM.Enemies[i].Spawn();
+            }
+            Console.ReadLine();
 
             // ADD enemy spawns
         }

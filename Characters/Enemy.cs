@@ -17,7 +17,7 @@ namespace Fallin.Characters
         base(props)
         {
             gsm = GSM;
-            gsm.AddEnemyReference(this);
+            // gsm.AddEnemyReference(this); // Dumbass, use GSM.Enemies.Add() instead
 
             LootTable = eprops.LootTable;
             ResourceTable = eprops.ResourceTable;

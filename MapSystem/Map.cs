@@ -175,7 +175,7 @@ namespace Fallin.MapSystem
             for (int i = 0; i < spawns.Length; i++)
             {
                 Cell target = Layout[spawns[i][0], spawns[i][1]];
-                if (!target.IsWall && !target.HasEnemy)
+                if (!target.IsWall && !target.HasCharacter)
                 {
                     target.AddCharacter(character);
                     character.Position = (spawns[i][0], spawns[i][1]);
@@ -188,7 +188,6 @@ namespace Fallin.MapSystem
         /// <summary>
         /// Used to spawn player at the start of the round at random point, assumes there is a free spawn point
         /// </summary>
-        /// <param name="player"></param>
         public void SpawnHeroAtRandomPosition(Hero player)
         {
             Spawn(player);
@@ -197,7 +196,6 @@ namespace Fallin.MapSystem
         /// <summary>
         /// Used to spawn enemies at random points, deletes the enemy and prints the name of it if spawn fails
         /// </summary>
-        /// <param name="enemy"></param>
         public void TrySpawnEnemyAtRandomPosition(Enemy enemy)
         {
             bool success = Spawn(enemy);
