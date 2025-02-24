@@ -8,6 +8,7 @@ namespace Fallin
         public Hero? Player { get; private set; }
         public List<Enemy> Enemies { get; private set; } = [];
         public Map CurrentMap;
+        public bool PlayerTurn = true;
 
 
         public GameStateManager()

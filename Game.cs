@@ -47,9 +47,18 @@ namespace Fallin
         {
             while (GameRunning)
             {
-                DrawMenu();
-                commandLast = (Console.ReadLine() ?? "").ToLower();
-                ProcessCommand(commandLast);
+                while (GSM.PlayerTurn)
+                {
+                    DrawMenu();
+                    commandLast = (Console.ReadLine() ?? "").ToLower();
+                    ProcessCommand(commandLast);
+                }
+                while (!GSM.PlayerTurn)
+                {
+                    // ADD enemy movement
+
+                    GSM.PlayerTurn = true;
+                }
             }
         }
 

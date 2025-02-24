@@ -110,9 +110,13 @@ namespace Fallin.Characters
             gsm.CurrentMap.SpawnHeroAtRandomPosition(this);
         }
 
+        /// <summary>
+        /// Tries to move player. Finishes player's turn if successful
+        /// </summary>
         public void Move(string direction)
         {
-            gsm.CurrentMap.MoveHero(this, direction);
+            bool success = gsm.CurrentMap.MoveHero(this, direction);
+            if (success) { gsm.PlayerTurn = false; }
         }
 
         public void IncreaseSpecial(string specialName)

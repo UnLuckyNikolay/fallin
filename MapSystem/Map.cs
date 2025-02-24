@@ -37,7 +37,10 @@ namespace Fallin.MapSystem
         }
 
 
-        public void MoveHero(Hero player, string direction)
+        /// <summary>
+        /// Returns true if movement was successful
+        /// </summary>
+        public bool MoveHero(Hero player, string direction)
         {
             bool bananaSlip = false;
             (int y, int x) position = player.Position;
@@ -74,16 +77,22 @@ namespace Fallin.MapSystem
                 player.Health -= 5;
                 Console.Write(" You slip on a banana peel. HP -5");
                 Utilities.Dots();
+
+                return false;
             }
             else if (cellTarget.IsWall)
             {
                 player.Health -= 5;
                 Console.Write(" You bonk into a wall. HP -5");
                 Utilities.Dots();
+
+                return false;
             }
             else if (cellTarget.HasEnemy)
             {
                 // ADD FIGHT
+
+                return true;
             }
             else
             {
@@ -93,6 +102,8 @@ namespace Fallin.MapSystem
 
                 Console.Write($" You move {direction}");
                 Utilities.Dots(400);
+
+                return true;
             }
         }
 
