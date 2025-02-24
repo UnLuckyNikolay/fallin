@@ -1,6 +1,5 @@
 using Fallin.Characters;
 using Fallin.Characters.Enemies;
-using Fallin.MapSystem;
 
 namespace Fallin
 {

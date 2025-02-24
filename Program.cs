@@ -1,7 +1,4 @@
-﻿using Fallin.Characters;
-using Fallin.MapSystem;
-
-// DONE --- Possibly remove player.location, only use Game_old.characterLocation
+﻿// DONE --- Possibly remove player.location, only use Game_old.characterLocation
 // Maybe change it so SPECIAL scale with level (calculated in .CalculateStats) for monsters and then command would be Character_old("name", level)
 // DONE --- Try: change map so each row is another array so there is no need to have movement array. Would be easier to have different sizes, including non-square
 // DONE --- Rewrite Special back to names instead of an array to fuck my own brains less

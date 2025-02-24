@@ -26,6 +26,9 @@ namespace Fallin.Characters
         }
 
 
+        /// <summary>
+        /// Spawns the enemy. If no available spawn points are present - the enemy is deleted
+        /// </summary>
         public void Spawn()
         {
             gsm.CurrentMap.TrySpawnEnemyAtRandomPosition(this);
@@ -74,13 +77,16 @@ namespace Fallin.Characters
             Console.WriteLine($" Health Points: {Health}/{HealthMax}");
         }
 
+        /// <summary>
+        /// Removes enemy reference from GameStateManager and gives player the loot. To remove enemy without dropping loot use .Remove()
+        /// </summary>
         public override void Death()
         {
             gsm.RemoveEnemyReference(this);
-            DropLoot();
-            // ADD loot drops
 
+            Console.WriteLine();
             Console.WriteLine($" {Name} has been killed!");
+            DropLoot();
         }
 
         /// <summary>

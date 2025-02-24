@@ -1,5 +1,3 @@
-using System.Data.Common;
-
 namespace Fallin.MapSystem
 {
     public static class MapLibrary

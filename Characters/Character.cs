@@ -1,6 +1,3 @@
-using System.Dynamic;
-using Fallin.MapSystem;
-
 namespace Fallin.Characters
 {
     public abstract class Character

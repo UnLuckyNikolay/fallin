@@ -1,5 +1,4 @@
 using Fallin.InventorySystem;
-using Fallin.MapSystem;
 
 namespace Fallin.Characters
 {
@@ -103,6 +102,9 @@ namespace Fallin.Characters
             inventory.AddItem(item);
         }
 
+        /// <summary>
+        /// Spawns the hero. Assumes there is an available spawn point
+        /// </summary>
         public void Spawn()
         {
             gsm.CurrentMap.SpawnHeroAtRandomPosition(this);
