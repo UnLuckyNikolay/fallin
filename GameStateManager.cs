@@ -8,12 +8,14 @@ namespace Fallin
         public Hero? Player { get; private set; }
         public List<Enemy> Enemies { get; private set; } = [];
         public Map CurrentMap;
+        public Game Game;
         public bool PlayerTurn = true;
 
 
-        public GameStateManager()
+        public GameStateManager(Game game)
         {
             CurrentMap = new();
+            Game = game;
         }
 
         public void SetPlayerReference(Hero player)

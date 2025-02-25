@@ -24,7 +24,7 @@ namespace Fallin
         public Game()
         {
             Console.Clear();
-            GSM = new();
+            GSM = new(this);
 
             Console.WriteLine(" Welcome to Fallin.");
             Console.Write(" Write the character name: ");
@@ -125,7 +125,7 @@ namespace Fallin
             }
         }
 
-        public void ProcessCommand(string command)
+        public bool ProcessCommand(string command)
         {
             string[] commandSplit = command.Split();
 
@@ -142,8 +142,7 @@ namespace Fallin
                         break;
 
                     case GameState.Fight:
-                        CommandFight(commandSplit);
-                        break;
+                        return CommandFight(commandSplit);
                         
                     case GameState.Character:
                         CommandCharacter(commandSplit);
@@ -162,6 +161,8 @@ namespace Fallin
                         break;
                 }
             }
+
+            return false;
         }
 
         private void CommandCheat(string[] commandSplit)
@@ -315,7 +316,7 @@ namespace Fallin
             }
         }
 
-        private void CommandFight(string[] commandSplit)
+        private bool CommandFight(string[] commandSplit)
         {
             switch (commandSplit[0])
             {
@@ -323,7 +324,7 @@ namespace Fallin
                 default:
                     Console.Write(" Invalid Input");
                     Utilities.Dots();
-                    break;
+                    return false;
             }
         }
 
