@@ -1,19 +1,11 @@
 using Fallin.Characters;
 using Fallin.Characters.Enemies;
+using Fallin.Enums;
 
 namespace Fallin
 {
     public sealed class Game
     {
-        private enum GameState {
-            Map,
-            Fight,
-            Character,
-            Leveling,
-            Inventory,
-            BattlePass
-        }
-        private GameState GameStateCurrent = GameState.Map;
         public GameStateManager GSM;
         public Hero Player;
 
@@ -46,7 +38,6 @@ namespace Fallin
             {
                 GSM.Enemies[i].Spawn();
             }
-            Console.ReadLine();
 
             // ADD enemy spawns
         }
@@ -80,22 +71,22 @@ namespace Fallin
         public void DrawMenu()
         {
             Console.Clear();
-            switch (GameStateCurrent)
+            switch (GSM.GameState)
             {
-                case GameState.Map:
+                case GameStates.Map:
                     Player.WriteAttributes();
                     Console.WriteLine("\n --<Current map>--");
                     GSM.CurrentMap.DrawMap();
                     Console.Write("\n Choose the next command (move (up/down/left/right), character, inventory, exit): ");
                     break;
 
-                case GameState.Fight:
+                case GameStates.Fight:
                     // ADD fight menu
                     Console.WriteLine(" You shouldn't be here."); // REMOVE
                     Console.ReadLine(); // REMOVE
                     break;
 
-                case GameState.Character:
+                case GameStates.Character:
                     Player.WriteAttributes();
                     Console.WriteLine();
                     Player.WriteSpecial();
@@ -104,21 +95,21 @@ namespace Fallin
                     else { Console.Write("\n Choose the next command (items, battlepass, exit): "); }
                     break;
 
-                case GameState.Leveling:
+                case GameStates.Leveling:
                     Player.WriteAttributes();
                     Console.WriteLine();
                     Player.WriteSpecial();
                     Console.Write("\n Choose the next (S/P/E/C/I/A/L) to upgrade: ");
                     break;
 
-                case GameState.Inventory:
+                case GameStates.Inventory:
                     Player.WriteAttributes();
                     Console.WriteLine();
                     Player.WriteInventory();
                     Console.Write("\n Write the *name* of the item to use or 'return': ");
                     break;
 
-                case GameState.BattlePass:
+                case GameStates.BattlePass:
                     // ADD battle pass
                     Console.Write("\n Write 'name *color*' to change it or 'return': ");
                     break;
@@ -135,28 +126,28 @@ namespace Fallin
             }
             else
             {
-                switch(GameStateCurrent)
+                switch(GSM.GameState)
                 {
-                    case GameState.Map:
+                    case GameStates.Map:
                         CommandMap(commandSplit);
                         break;
 
-                    case GameState.Fight:
+                    case GameStates.Fight:
                         return CommandFight(commandSplit);
                         
-                    case GameState.Character:
+                    case GameStates.Character:
                         CommandCharacter(commandSplit);
                         break;
                         
-                    case GameState.Leveling:
+                    case GameStates.Leveling:
                         CommandLeveling(commandSplit);
                         break;
                         
-                    case GameState.Inventory:
+                    case GameStates.Inventory:
                         CommandInventory(commandSplit);
                         break;
                         
-                    case GameState.BattlePass:
+                    case GameStates.BattlePass:
                         CommandBattlePass(commandSplit);
                         break;
                 }
@@ -258,7 +249,7 @@ namespace Fallin
                 case "attack":
                 case "engage":
                         if (!int.TryParse(commandSplit[2], out int index)) { goto default; }
-                        GameStateCurrent = GameState.Fight;
+                        GSM.GameState = GameStates.Fight;
                         // ADD fight
                         break;
 
@@ -276,12 +267,12 @@ namespace Fallin
                 case "items":
                 case "inventory":
                 case "backpack":
-                    GameStateCurrent = GameState.Inventory;
+                    GSM.GameState = GameStates.Inventory;
                     break;
 
                 case "stats":
                 case "character":
-                    GameStateCurrent = GameState.Character;
+                    GSM.GameState = GameStates.Character;
                     break;
 
                 case "move":
@@ -335,13 +326,13 @@ namespace Fallin
                 case "items":
                 case "inventory":
                 case "backpack":
-                    GameStateCurrent = GameState.Inventory;
+                    GSM.GameState = GameStates.Inventory;
                     break;
 
                 case "levelup":
                 case "lvlup":
                 case "leveling":
-                    if (Player.SpecialLeft > 0) { GameStateCurrent = GameState.Leveling; }
+                    if (Player.SpecialLeft > 0) { GSM.GameState = GameStates.Leveling; }
                     else 
                     {
                         Console.Write(" Nothing to level up");
@@ -352,7 +343,7 @@ namespace Fallin
                 case "return":
                 case "exit":
                 case "map":
-                    GameStateCurrent = GameState.Map;
+                    GSM.GameState = GameStates.Map;
                     break;
 
                 default:
@@ -376,7 +367,7 @@ namespace Fallin
             }
             Console.Write(" Returning to the Character menu");
             Utilities.Dots();
-            GameStateCurrent = GameState.Character;
+            GSM.GameState = GameStates.Character;
         }
 
         private void CommandInventory(string[] commandSplit)
@@ -387,11 +378,11 @@ namespace Fallin
                 case "character":
                 case "return":
                 case "exit":
-                    GameStateCurrent = GameState.Character;
+                    GSM.GameState = GameStates.Character;
                     break;
 
                 case "map":
-                    GameStateCurrent = GameState.Map;
+                    GSM.GameState = GameStates.Map;
                     break;
 
                 default:
@@ -412,11 +403,11 @@ namespace Fallin
                 case "character":
                 case "return":
                 case "exit":
-                    GameStateCurrent = GameState.Character;
+                    GSM.GameState = GameStates.Character;
                     break;
 
                 case "map":
-                    GameStateCurrent = GameState.Map;
+                    GSM.GameState = GameStates.Map;
                     break;
                     
                 default: // ADD COLOR CHANGE HERE

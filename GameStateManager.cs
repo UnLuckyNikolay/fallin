@@ -1,10 +1,12 @@
 using Fallin.Characters;
 using Fallin.MapSystem;
+using Fallin.Enums;
 
 namespace Fallin
 {
     public sealed class GameStateManager
     {
+        public GameStates GameState = GameStates.Map;
         public Hero? Player { get; private set; }
         public List<Enemy> Enemies { get; private set; } = [];
         public Map CurrentMap;
