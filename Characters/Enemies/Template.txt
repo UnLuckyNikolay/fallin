@@ -22,13 +22,17 @@ namespace Fallin.Characters.Enemies
 
             HealthMultiplier = ______,
             AttackMultiplier = ______
+            
         }, new EnemyProperties{
             SpriteAlive = """______""",
+
             SpriteDead = """______""",
+
             LootTable = new Dictionary<InventorySystem.Item, int>
             {
                 ______
             },
+
             ResourceTable = new Dictionary<ResourceType, int>
             {
                 { ResourceType.Experience, ______ },
@@ -37,6 +41,11 @@ namespace Fallin.Characters.Enemies
             }
         })
         {
+        }
+
+        public override void Move()
+        {
+            ______
         }
     }
 }
