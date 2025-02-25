@@ -17,10 +17,15 @@ namespace Fallin.Characters
         public float HealthMultiplier { get; init; }
         public int HealthMax => (int)Math.Round((50 + 10 * Level + 10 * Endurance) * HealthMultiplier);
         public float AttackMultiplier { get; init; }
-        public int Attack => (int)Math.Round((4 * Strength + 2 * Agility) * AttackMultiplier);
+        private Random rnd = new();
+        private float Attack => (4 * Strength + 2 * Agility) * AttackMultiplier;
+        public int AttackRandom => (int)Math.Round(Attack * (rnd.Next(75, 126) / 100));
+        public int AttackMin => (int)Math.Round(Attack * 0.75f);
+        public int AttackMax => (int)Math.Round(Attack * 1.25f);
         public int Armor => Endurance;
 
         public bool IsAlive => Health > 0;
+        public int SpecialAttackCD;
 
         public int Level { get; protected set; }
         public int Strength { get; protected set; }
