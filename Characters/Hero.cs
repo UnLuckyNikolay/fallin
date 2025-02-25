@@ -47,7 +47,7 @@ namespace Fallin.Characters
             Luck = 3,
 
             HealthMultiplier = 1,
-            AttackMultiplier = 1
+            DamageMultiplier = 1
         })
         {
             gsm = GSM;

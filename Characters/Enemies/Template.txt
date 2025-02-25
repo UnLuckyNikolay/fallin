@@ -21,8 +21,8 @@ namespace Fallin.Characters.Enemies
             Luck = ______,
 
             HealthMultiplier = ______,
-            AttackMultiplier = ______
-            
+            DamageMultiplier = ______
+
         }, new EnemyProperties{
             SpriteAlive = """______""",
 
@@ -44,6 +44,11 @@ namespace Fallin.Characters.Enemies
         }
 
         public override void Move()
+        {
+            ______
+        }
+
+        public override void Attack(Character target, bool isTargetBlocking)
         {
             ______
         }

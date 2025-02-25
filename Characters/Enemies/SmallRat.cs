@@ -22,7 +22,7 @@ namespace Fallin.Characters.Enemies
             Luck = 4,
 
             HealthMultiplier = 0.5f,
-            AttackMultiplier = 1
+            DamageMultiplier = 1
         }, 
         new EnemyProperties{
             SpriteAlive = 
@@ -53,6 +53,11 @@ namespace Fallin.Characters.Enemies
         public override void Move()
         {
             MoveRandomly();
+        }
+
+        public override void Attack(Character target, bool isTargetBlocking)
+        {
+            AttackCharged(target, isTargetBlocking);
         }
     }
 }

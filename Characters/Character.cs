@@ -16,15 +16,16 @@ namespace Fallin.Characters
         }
         public float HealthMultiplier { get; init; }
         public int HealthMax => (int)Math.Round((50 + 10 * Level + 10 * Endurance) * HealthMultiplier);
-        public float AttackMultiplier { get; init; }
+        public float DamageMultiplier { get; init; }
         private Random rnd = new();
-        private float Attack => (4 * Strength + 2 * Agility) * AttackMultiplier;
-        public int AttackRandom => (int)Math.Round(Attack * (rnd.Next(75, 126) / 100));
-        public int AttackMin => (int)Math.Round(Attack * 0.75f);
-        public int AttackMax => (int)Math.Round(Attack * 1.25f);
+        private float Damage => (4 * Strength + 2 * Agility) * DamageMultiplier;
+        public int DamageRandom => (int)Math.Round(Damage * (rnd.Next(75, 126) / 100));
+        public int DamageMin => (int)Math.Round(Damage * 0.75f);
+        public int DamageMax => (int)Math.Round(Damage * 1.25f);
         public int Armor => Endurance;
 
         public bool IsAlive => Health > 0;
+        public bool IsBlocking = false;
         public int SpecialAttackCD;
 
         public int Level { get; protected set; }
@@ -55,7 +56,7 @@ namespace Fallin.Characters
             Luck = props.Luck;
 
             HealthMultiplier = props.HealthMultiplier;
-            AttackMultiplier = props.AttackMultiplier;
+            DamageMultiplier = props.DamageMultiplier;
 
             Health = HealthMax;
         }
@@ -66,6 +67,11 @@ namespace Fallin.Characters
         public void TakeDamage(int damage)
         {
             Health -= (damage - Armor);
+        }
+
+        public void Attack(Character target, bool isTargetBlocking)
+        {
+
         }
     }
 }

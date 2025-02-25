@@ -16,6 +16,6 @@ namespace Fallin.Characters
         public required int Luck;
 
         public required float HealthMultiplier;
-        public required float AttackMultiplier;
+        public required float DamageMultiplier;
     }    
 }
