@@ -11,7 +11,7 @@ namespace Fallin.Characters
             get => health;
             set {
                 health = Math.Clamp(value, 0, HealthMax);
-                if (health <= 0) { Death(); }
+                //if (health <= 0) { Death(); }
             }
         }
         public float HealthMultiplier { get; init; }
@@ -19,7 +19,7 @@ namespace Fallin.Characters
         public float DamageMultiplier { get; init; }
         private Random rnd = new();
         private float Damage => (4 * Strength + 2 * Agility) * DamageMultiplier;
-        public int DamageRandom => (int)Math.Round(Damage * (rnd.Next(75, 126) / 100));
+        public int DamageRandom => (int)Math.Round(Damage * (rnd.Next(75, 126) / 100f));
         public int DamageMin => (int)Math.Round(Damage * 0.75f);
         public int DamageMax => (int)Math.Round(Damage * 1.25f);
         public int Armor => Endurance;
@@ -28,6 +28,7 @@ namespace Fallin.Characters
         public bool IsAlive => Health > 0;
         public bool IsBlocking = false;
         public int SpecialAttackCD;
+        private bool SpecialAttackCharged = false;
 
         public int Level { get; protected set; }
         public int Strength { get; protected set; }
@@ -80,7 +81,7 @@ namespace Fallin.Characters
                 }
                 else 
                 {
-                    Console.Write($" You dodge {Name}'s attack");
+                    Console.Write($" You dodge {attacker.Name}'s attack");
                 }
                 Utilities.Dots();
             }
@@ -96,6 +97,7 @@ namespace Fallin.Characters
                 }
                 else 
                 {
+                    if (damageMult > 1) { Console.WriteLine($" The {attacker.Name} hits you with a charged attack!"); }
                     Console.Write($" You take {damage} point(s) of damage");
                 }
                 Utilities.Dots();
@@ -111,18 +113,31 @@ namespace Fallin.Characters
 
         public void AttackCharged(Character target)
         {
+            if (SpecialAttackCharged)
+            {
+                target.TakeDamageFrom(this, 3);
+                SpecialAttackCD = 2;
+                SpecialAttackCharged = false;
+                return;
+            }
+
             if (SpecialAttackCD <= 0)
             {
                 Random rnd = new();
                 int roll = rnd.Next(101);
                 if (roll <= 40)
                 {
-                    AttackNormal(target);
+                    SpecialAttackCharged = true;
+                    Console.Write($" The {Name} prepares a devastating attack");
+                    Utilities.Dots(1000);
                     return;
                 }
-                target.TakeDamageFrom(this, 3);
             }
-            else { AttackNormal(target); }
+            else
+            {
+                AttackNormal(target);
+                SpecialAttackCD--;
+            }
         }
     }
 }

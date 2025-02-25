@@ -6,10 +6,12 @@ namespace Fallin.MapSystem
     {
         public Cell[,] Layout { get; protected set; }
         private int id;
+        private GameStateManager gsm;
     
     
-        public Map(int overrideId = -1)
+        public Map(GameStateManager GSM, int overrideId = -1)
         {
+            gsm = GSM;
             id = overrideId;
             if (id == -1)
             {
@@ -71,7 +73,9 @@ namespace Fallin.MapSystem
             }
             else if (cellTarget.HasHero)
             {
-                // ADD fight
+                Console.Write($" The {enemy.Name} approaches you");
+                Utilities.Dots();
+                gsm.Fight.StartFight(enemy, false);
 
                 return true;
             }
@@ -138,7 +142,9 @@ namespace Fallin.MapSystem
             }
             else if (cellTarget.HasEnemy)
             {
-                // ADD FIGHT
+                Console.Write($" You approach the {cellTarget.character?.Name}");
+                Utilities.Dots();
+                gsm.Fight.StartFight((Enemy)cellTarget.character!, true);
 
                 return true;
             }
@@ -202,7 +208,7 @@ namespace Fallin.MapSystem
             if (!success)
             {
                 enemy.Remove();
-                Console.WriteLine($" Failed to spawn {enemy.Name}!");
+                Console.Write($" Failed to spawn {enemy.Name}!");
                 Utilities.Dots();
             }
         }

@@ -8,7 +8,7 @@ namespace Fallin.MapSystem
         public bool HasEnemy => character != null && character is Enemy;
         public bool HasHero => character != null && character is Hero;
         public bool HasCharacter => character != null && character is Character;
-        private Character? character = null;
+        public Character? character = null;
 
 
         public Cell(bool isWall)

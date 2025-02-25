@@ -10,13 +10,15 @@ namespace Fallin
         public Hero? Player { get; private set; }
         public List<Enemy> Enemies { get; private set; } = [];
         public Map CurrentMap;
+        public CombatSystem Fight;
         public Game Game;
         public bool PlayerTurn = true;
 
 
         public GameStateManager(Game game)
         {
-            CurrentMap = new();
+            CurrentMap = new(this);
+            Fight = new(this);
             Game = game;
         }
 
@@ -24,6 +26,7 @@ namespace Fallin
         // Used in Hero constructor
         {
             Player = player;
+            Fight.Player = player;
         }
 
         public void AddEnemyReference(Enemy enemy)

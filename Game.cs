@@ -38,8 +38,6 @@ namespace Fallin
             {
                 GSM.Enemies[i].Spawn();
             }
-
-            // ADD enemy spawns
         }
 
 
@@ -81,9 +79,10 @@ namespace Fallin
                     break;
 
                 case GameStates.Fight:
-                    // ADD fight menu
-                    Console.WriteLine(" You shouldn't be here."); // REMOVE
-                    Console.ReadLine(); // REMOVE
+                    GSM.Fight.Enemy?.WriteAttributes();
+                    Console.WriteLine();
+                    Player.WriteAttributes();
+                    Console.WriteLine();
                     break;
 
                 case GameStates.Character:
@@ -106,7 +105,7 @@ namespace Fallin
                     Player.WriteAttributes();
                     Console.WriteLine();
                     Player.WriteInventory();
-                    Console.Write("\n Write the *name* of the item to use or 'return': ");
+                    Console.Write("\n 'Write 'use *item name*' to use it or 'return': ");
                     break;
 
                 case GameStates.BattlePass:
@@ -116,7 +115,7 @@ namespace Fallin
             }
         }
 
-        public bool ProcessCommand(string command)
+        public void ProcessCommand(string command)
         {
             string[] commandSplit = command.Split();
 
@@ -133,7 +132,8 @@ namespace Fallin
                         break;
 
                     case GameStates.Fight:
-                        return CommandFight(commandSplit);
+                        CommandFight(commandSplit);
+                        break;
                         
                     case GameStates.Character:
                         CommandCharacter(commandSplit);
@@ -152,14 +152,20 @@ namespace Fallin
                         break;
                 }
             }
-
-            return false;
         }
 
         private void CommandCheat(string[] commandSplit)
         {
             switch (commandSplit[1])
             {
+                case "kill":
+                    if (GSM.Fight.Enemy == null) { goto default; }
+                    GSM.Fight.Enemy.Health = 0;
+                    GSM.Fight.PlayerTurn = false;
+                    Console.Write(" Avada Kedavra!");
+                    Utilities.Dots(200, 10);
+                    break;
+
                 case "heal":
                 case "fullheal":
                     Player.HealFull();
@@ -307,15 +313,28 @@ namespace Fallin
             }
         }
 
-        private bool CommandFight(string[] commandSplit)
+        private void CommandFight(string[] commandSplit)
         {
             switch (commandSplit[0])
             {
-                // ADD fight command handling
-                default:
-                    Console.Write(" Invalid Input");
+                case "attack":
+                    if (GSM.Fight.Enemy == null) { break; } 
+                    Player.Attack(GSM.Fight.Enemy);
+                    GSM.Fight.PlayerTurn = false;
+                    break;
+
+                case "defence":
+                case "defense":
+                case "block":
+                    Player.IsBlocking = true;
+                    GSM.Fight.PlayerTurn = false;
+                    Console.Write(" You take a defensive position");
                     Utilities.Dots();
-                    return false;
+                    break;
+
+                default:
+                    Console.Write(" Invalid Input. Try again: ");
+                    break;
             }
         }
 

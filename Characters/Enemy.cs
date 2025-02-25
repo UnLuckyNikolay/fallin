@@ -37,7 +37,6 @@ namespace Fallin.Characters
         /// <summary>
         /// Gives player resources (money, xp, etc) and rolls for items, and prints it out
         /// </summary>
-        /// <param name="player"></param>
         public void DropLoot()
         {
             if (gsm.Player == null) { return; } // To suppress the warning
@@ -99,6 +98,10 @@ namespace Fallin.Characters
             Console.WriteLine(">--");
             Console.WriteLine($" Level: {Level}");
             Console.WriteLine($" Health Points: {Health}/{HealthMax}");
+            Console.WriteLine();
+            if (Health > 0) { Console.WriteLine(SpriteAlive); }
+            else { Utilities.WriteColored(SpriteDead, "darkred"); }
+            Console.WriteLine();
         }
 
         /// <summary>
@@ -119,6 +122,7 @@ namespace Fallin.Characters
         public void Remove()
         {
             gsm.RemoveEnemyReference(this);
+            gsm.CurrentMap.Layout[Position.y, Position.x].RemoveCharacter();
         }
     }
 }
