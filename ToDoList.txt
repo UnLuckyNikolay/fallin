@@ -1,0 +1,41 @@
+Refactors:
+
+Enemy shouldn't be deleted on death so it doesn't immediately drop loot
+Write* methods should instead return menus as strings so it can be written right after clearing screen
+
+Features:
+
+Structures
+Fog of war
+Borders for menus
+
+Old list:
+
+// DONE --- Possibly remove player.location, only use Game_old.characterLocation
+// Maybe change it so SPECIAL scale with level (calculated in .CalculateStats) for monsters and then command would be Character_old("name", level)
+// DONE --- Try: change map so each row is another array so there is no need to have movement array. Would be easier to have different sizes, including non-square
+// DONE --- Rewrite Special back to names instead of an array to fuck my own brains less
+// DONE --- Finish rewritig DrawMap block (change all usages to v2), change code for movement
+// DONE --- Add Move block that can be used by player (with up/down etc) and enemies (random, maybe towards player)
+// DONE --- Add time to dots
+// DONE --- Possibly one big blok for commands that would give ability to have test commands
+// DONE --- Colored text?
+// DONE --- Change health to int, round attack
+// Merchant, charisma
+// Command/block for level generation
+// Exit
+// DONE --- Legend for map and special
+// DONE --- Dead enemies
+// DONE --- Battle pass and name color customisation
+// Inventory and drop tables
+// DONE --- Game_old restart is broken
+// DONE --- Maybe min and max damage
+// DONE --- Add second unpopulated copy of the map and change movement to allow exit/merchant/etc
+// Enemy movement
+// Maybe fog of war
+// DONE --- Attack cheat doesn't remove enemy from the map
+// Split Character_old into Player and NPC
+
+// add class Item
+// maybe a list of items as inventory
+// inventory as a list of [id, amount]?
