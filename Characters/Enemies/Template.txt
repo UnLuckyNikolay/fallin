@@ -48,7 +48,7 @@ namespace Fallin.Characters.Enemies
             ______
         }
 
-        public override void Attack(Character target, bool isTargetBlocking)
+        public override void Attack(Character target)
         {
             ______
         }

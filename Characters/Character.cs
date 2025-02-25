@@ -23,6 +23,7 @@ namespace Fallin.Characters
         public int DamageMin => (int)Math.Round(Damage * 0.75f);
         public int DamageMax => (int)Math.Round(Damage * 1.25f);
         public int Armor => Endurance;
+        public int DodgeChanceBase => 20 + Agility * 3;
 
         public bool IsAlive => Health > 0;
         public bool IsBlocking = false;
@@ -64,14 +65,64 @@ namespace Fallin.Characters
 
         public abstract void Death();
 
-        public void TakeDamage(int damage)
+        /// <summary>
+        /// Calculates and deals damage, checks for block and dodge
+        /// </summary>
+        public void TakeDamageFrom(Character attacker, int damageMult=1)
         {
-            Health -= (damage - Armor);
+            Random rnd = new();
+            int dodgeRoll = rnd.Next(101);
+            if (dodgeRoll <= (DodgeChanceBase - attacker.Perception * 3))
+            {
+                if (this is Enemy)
+                {
+                    Console.Write($" {Name} dodges your attack");
+                }
+                else 
+                {
+                    Console.Write($" You dodge {Name}'s attack");
+                }
+                Utilities.Dots();
+            }
+            else
+            {
+                int damage = attacker.DamageRandom * damageMult - Armor;
+                if (IsBlocking) { damage = (int)Math.Round(damage * 0.75f); }
+                Health -= damage;
+
+                if (this is Enemy)
+                {
+                    Console.Write($" {Name} takes {damage} point(s) of damage");
+                }
+                else 
+                {
+                    Console.Write($" You take {damage} point(s) of damage");
+                }
+                Utilities.Dots();
+            }
         }
 
-        public void Attack(Character target, bool isTargetBlocking)
-        {
+        public abstract void Attack(Character target);
 
+        public void AttackNormal(Character target)
+        {
+            target.TakeDamageFrom(this);
+        }
+
+        public void AttackCharged(Character target)
+        {
+            if (SpecialAttackCD <= 0)
+            {
+                Random rnd = new();
+                int roll = rnd.Next(101);
+                if (roll <= 40)
+                {
+                    AttackNormal(target);
+                    return;
+                }
+                target.TakeDamageFrom(this, 3);
+            }
+            else { AttackNormal(target); }
         }
     }
 }

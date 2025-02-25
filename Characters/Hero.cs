@@ -119,6 +119,11 @@ namespace Fallin.Characters
             if (success) { gsm.PlayerTurn = false; }
         }
 
+        public override void Attack(Character target)
+        {
+            AttackNormal(target);
+        }
+
         public void IncreaseSpecial(string specialName)
         {
             switch (specialName)

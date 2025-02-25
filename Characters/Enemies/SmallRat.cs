@@ -55,9 +55,9 @@ namespace Fallin.Characters.Enemies
             MoveRandomly();
         }
 
-        public override void Attack(Character target, bool isTargetBlocking)
+        public override void Attack(Character target)
         {
-            AttackCharged(target, isTargetBlocking);
+            AttackCharged(target);
         }
     }
 }
