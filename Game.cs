@@ -109,7 +109,9 @@ namespace Fallin
                     break;
 
                 case GameStates.BattlePass:
-                    // ADD battle pass
+                    Player.WriteAttributes();
+                    Console.WriteLine();
+                    Player.WriteBP();
                     Console.Write("\n Write 'name *color*' to change it or 'return': ");
                     break;
             }
@@ -179,6 +181,14 @@ namespace Fallin
                     Player.Experience += Player.ExperienceMax;
 
                     Console.Write($" Cheat used! {Player.Name} leveled up");
+                    Utilities.Dots();
+                    break;
+                
+                case "bpup":
+                case "battlepassup":
+                    Player.ExperienceBP += 1000;
+
+                    Console.Write($" Cheat used! Added 1000 BP Experience");
                     Utilities.Dots();
                     break;
                     
@@ -358,6 +368,11 @@ namespace Fallin
                         Utilities.Dots();
                     }
                     break;
+
+                case "battlepass":
+                case "bp":
+                    GSM.GameState = GameStates.BattlePass;
+                    break;
                 
                 case "return":
                 case "exit":
@@ -416,7 +431,9 @@ namespace Fallin
         {
             switch (commandSplit[0])
             {
-                // ADD battle pass section
+                case "name":
+                    Player.TryChangeColorName(string.Join("", commandSplit.Skip(1)));
+                    break;
 
                 case "stats":
                 case "character":
@@ -429,7 +446,7 @@ namespace Fallin
                     GSM.GameState = GameStates.Map;
                     break;
                     
-                default: // ADD COLOR CHANGE HERE
+                default:
                     Console.Write(" Invalid Input");
                     Utilities.Dots();
                     break;

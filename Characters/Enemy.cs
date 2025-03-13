@@ -40,9 +40,6 @@ namespace Fallin.Characters
         public void DropLoot()
         {
             if (gsm.Player == null) { return; } // To suppress the warning
-            gsm.Player.Experience += ResourceTable[ResourceType.Experience];
-            gsm.Player.ExperienceBP += ResourceTable[ResourceType.ExperienceBP];
-            gsm.Player.Gold += ResourceTable[ResourceType.Gold];
 
             Console.WriteLine($" Acquired {ResourceTable[ResourceType.Experience]} experience, " +
                                         $"{ResourceTable[ResourceType.ExperienceBP]} BP experience, " +
@@ -65,6 +62,10 @@ namespace Fallin.Characters
                 }
             }
             if (itemDrop) { Console.WriteLine(); }
+            
+            gsm.Player.Experience += ResourceTable[ResourceType.Experience];
+            gsm.Player.ExperienceBP += ResourceTable[ResourceType.ExperienceBP];
+            gsm.Player.Gold += ResourceTable[ResourceType.Gold];
         }
 
         /// <summary>

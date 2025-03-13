@@ -19,8 +19,12 @@ namespace Fallin.Characters
         public int ExperienceBP {
             get => experienceBP;
             set {
-                experienceBP = Math.Max(value, 0);
-                while (experienceBP >= 1000) { LevelUpBP(); }
+                if (LevelBP < BPRewards.Count)
+                {
+                    experienceBP = Math.Max(value, 0);
+                    while (experienceBP >= 1000) { LevelUpBP(); }
+                }
+                else { experienceBP = 0; }
             }
         }
 
@@ -29,6 +33,16 @@ namespace Fallin.Characters
         private GameStateManager gsm;
 
         private readonly Inventory inventory = new();
+        public Dictionary<Color, bool> NameColors = new Dictionary<Color, bool>
+        {
+            {Color.White, true},
+            {Color.DarkCyan, false},
+            {Color.Yellow, false},
+            {Color.Magenta, false},
+            {Color.DarkRed, false},
+            {Color.Pride, false},
+        };
+        private readonly List<Color> BPRewards = [ Color.DarkCyan, Color.Yellow, Color.Magenta, Color.DarkRed, Color.Pride ];
 
 
         public Hero(GameStateManager GSM, string name) : 
@@ -52,6 +66,8 @@ namespace Fallin.Characters
         {
             gsm = GSM;
             gsm.SetPlayerReference(this);
+            
+            LevelBP = 0;
         }
 
 
@@ -62,16 +78,16 @@ namespace Fallin.Characters
             Level++;
             HealFull();
             
-            Console.Write(" LEVEL UP! 3 new Special points available!");
+            Console.WriteLine(" LEVEL UP! 3 new Special points available!");
         }
 
         private void LevelUpBP()
         {
             ExperienceBP -= 1000;
             LevelBP++;
-            // ADD BP unlocks
+            NameColors[BPRewards[LevelBP-1]] = true;
 
-            // ADD text
+            Console.WriteLine(" BATTLE PASS LEVEL UP! New customisation available!");
         }
 
         public void HealFull()
@@ -184,6 +200,29 @@ namespace Fallin.Characters
             }
         }
 
+        public void TryChangeColorName(string color)
+        {
+            if (!Enum.TryParse<Color>(color, true, out Color colorNew)) 
+            {
+                Console.Write(" Invalid input");
+                Utilities.Dots();
+            }
+            else
+            {
+                if (NameColors.ContainsKey(colorNew) && NameColors[colorNew] == true)
+                {
+                    NameColor = colorNew;
+                    Console.Write($" Name color changed to {colorNew}");
+                    Utilities.Dots();
+                }
+                else
+                {
+                    Console.Write(" Invalid input");
+                    Utilities.Dots();
+                }
+            }
+        }
+        
         public override void Death()
         {
             Console.WriteLine("The brave hero is lying defeated!"); // ADD DEATH
@@ -218,6 +257,77 @@ namespace Fallin.Characters
         {
             Console.WriteLine(" --<Inventory>--");
             inventory.WriteItems();
+        }
+    
+        public void WriteBP()
+        {
+            List<string> colorsList = new();
+            foreach (KeyValuePair<Color, bool> pair in NameColors)
+            {
+                if (pair.Value == true)
+                {
+                    colorsList.Add(pair.Key.ToString());
+                }
+            }
+            string colors = string.Join(", ", colorsList);
+
+            Console.WriteLine($" Your current level: {LevelBP}");
+            if (LevelBP < BPRewards.Count) { Console.WriteLine($" XP till next level: {ExperienceBP}/1000"); }
+            Console.WriteLine(" ╔══════════╦══════════╦══════════╦══════════╦══════════╗");
+            WriteBPLevelProgress(1, 5);
+            Console.WriteLine(" ╠══════════╬══════════╬══════════╬══════════╬══════════╣");
+
+            Console.Write(" ║");
+            Utilities.WriteColored("Name Color", BPRewards[0]);
+            Console.Write("║");
+            Utilities.WriteColored("Name Color", BPRewards[1]);
+            Console.Write("║");
+            Utilities.WriteColored("Name Color", BPRewards[2]);
+            Console.Write("║");
+            Utilities.WriteColored("Name Color", BPRewards[3]);
+            Console.Write("║");
+            Utilities.WriteColored("Name Color", BPRewards[4]);
+            Console.WriteLine("║");
+
+            Console.WriteLine(" ╚══════════╩══════════╩══════════╩══════════╩══════════╝");
+
+            Console.WriteLine();
+            Console.WriteLine($" Available colors: {colors}");
+        }
+
+        public void WriteBPLevelProgress(int startLevel, int endLevel)
+        {
+            Console.Write(" ");
+            while (startLevel <= endLevel)
+            {
+                Console.Write("║");
+                if (startLevel <= LevelBP)
+                {
+                    Utilities.WriteColored("▓▓▓▓▓▓▓▓▓▓", Color.Green);
+                }
+                else if (startLevel == LevelBP + 1)
+                {
+                    int i = ExperienceBP / 100;
+                    int j = 10;
+                    while (i > 0 && j > 0)
+                    {
+                        Console.Write("▓");
+                        i--;
+                        j--;
+                    }
+                    while (j > 0)
+                    {
+                        Console.Write("░");
+                        j--;
+                    }
+                }
+                else
+                {
+                    Console.Write("░░░░░░░░░░");
+                }
+                startLevel++;
+            }
+            Console.WriteLine("║");
         }
     }
 }
