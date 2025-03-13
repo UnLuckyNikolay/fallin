@@ -5,7 +5,7 @@ namespace Fallin.Characters
         public required int Level;
         public required string Name;
         public required string NameMap;
-        public required string NameColor;
+        public required Color NameColor;
         
         public required int Strength;
         public required int Perception;

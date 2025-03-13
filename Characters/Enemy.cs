@@ -94,7 +94,7 @@ namespace Fallin.Characters
         public void WriteAttributes()
         {
             Console.Write(" --<");
-            Tool.WriteColored(Name, NameColor);
+            Utilities.WriteColored(Name, NameColor);
             Console.WriteLine(">--");
             Console.WriteLine($" Level: {Level}");
             Console.WriteLine($" Health Points: {Health}/{HealthMax}");

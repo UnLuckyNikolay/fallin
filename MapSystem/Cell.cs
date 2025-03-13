@@ -21,7 +21,7 @@ namespace Fallin.MapSystem
         {
             if (IsWall)
             {
-                Utilities.WriteColored("▒▒", "darkyellow");
+                Utilities.WriteColored("▒▒", Color.DarkYellow);
             }
             else if (character == null)
             {

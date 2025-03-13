@@ -36,7 +36,7 @@ namespace Fallin.Characters
             Level = 1,
             Name = name,
             NameMap = "Pl",
-            NameColor = "white",
+            NameColor = Color.White,
 
             Strength = 3,
             Perception = 3,
@@ -193,7 +193,7 @@ namespace Fallin.Characters
         public void WriteAttributes()
         {
             Console.Write(" --<");
-            Tool.WriteColored(Name, NameColor);
+            Utilities.WriteColored(Name, NameColor);
             Console.WriteLine(">--");
 
             Console.WriteLine($" Level: {Level}, experience: {Experience}/{ExperienceMax}");

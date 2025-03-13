@@ -11,7 +11,7 @@ namespace Fallin.Characters.Enemies
             Level = 1,
             Name = "Small Rat",
             NameMap = "rt",
-            NameColor = "gray",
+            NameColor = Color.Gray,
 
             Strength = 2,
             Perception = 1,

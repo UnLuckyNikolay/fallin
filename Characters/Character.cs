@@ -4,7 +4,7 @@ namespace Fallin.Characters
     {
         public string Name { get; init; }
         public string NameMap { get; init; }
-        public string NameColor { get; protected set; }
+        public Color NameColor { get; protected set; }
 
         private int health;
         public int Health {
