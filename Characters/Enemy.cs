@@ -62,7 +62,7 @@ namespace Fallin.Characters
                 }
             }
             if (itemDrop) { Console.WriteLine(); }
-            
+
             gsm.Player.Experience += ResourceTable[ResourceType.Experience];
             gsm.Player.ExperienceBP += ResourceTable[ResourceType.ExperienceBP];
             gsm.Player.Gold += ResourceTable[ResourceType.Gold];
@@ -101,7 +101,7 @@ namespace Fallin.Characters
             Console.WriteLine($" Health Points: {Health}/{HealthMax}");
             Console.WriteLine();
             if (Health > 0) { Console.WriteLine(SpriteAlive); }
-            else { Utilities.WriteColored(SpriteDead, "darkred"); }
+            else { Utilities.WriteColored(SpriteDead, Color.DarkRed); }
             Console.WriteLine();
         }
 
