@@ -1,9 +1,9 @@
 namespace Fallin.Enums
 {
-            public enum ResourceType
-        {
-            Experience,
-            ExperienceBP,
-            Gold
-        }
+    public enum ResourceType
+    {
+        Experience,
+        ExperienceBP,
+        Gold
+    }
 }
