@@ -67,7 +67,7 @@ namespace Fallin.Characters
         public abstract void Death();
 
         /// <summary>
-        /// Calculates and deals damage, checks for block and dodge
+        /// Calculates and deals damage, checks for dodge, crit and block
         /// </summary>
         public void TakeDamageFrom(Character attacker, int damageMult=1)
         {
@@ -87,23 +87,37 @@ namespace Fallin.Characters
             }
             else
             {
-                int damage = attacker.DamageRandom * damageMult - Armor;
+                int critMult = 1;
+                bool critSuccess = false;
+                int critRoll = rnd.Next(101);
+                if (critRoll < Luck * 3)
+                {
+                    critSuccess = true;
+                    critMult = 2;
+                }
+
+                int damage = attacker.DamageRandom * damageMult * critMult - Armor;
                 if (IsBlocking) { damage = (int)Math.Round(damage * 0.75f); }
                 Health -= damage;
 
                 if (this is Enemy)
                 {
+                    if (critSuccess) { Console.Write(" Critical hit!"); }
                     Console.Write($" {Name} takes {damage} point(s) of damage");
                 }
                 else 
                 {
                     if (damageMult > 1) { Console.WriteLine($" The {attacker.Name} hits you with a charged attack!"); }
+                    if (critSuccess) { Console.Write(" Critical hit!"); }
                     Console.Write($" You take {damage} point(s) of damage");
                 }
                 Utilities.Dots();
             }
         }
 
+        /// <summary>
+        /// Abstract, used to choose the attack pattern. Damage calculation is done in Character.TakeDamageFrom()
+        /// </summary>
         public abstract void Attack(Character target);
 
         public void AttackNormal(Character target)
