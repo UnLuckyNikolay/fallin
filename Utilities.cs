@@ -76,6 +76,15 @@ namespace Fallin
             Console.ForegroundColor = ConsoleColor.White;
         }
 
+        /// <summary>
+        /// Writes colored text. Searches Color Enum for a suitable color, if none is found - defaults to white.
+        /// </summary>
+        public static void WriteColored(string text, string color)
+        {
+            Color colorEnum = GetColorEnum(color);
+            WriteColored(text, colorEnum);
+        }
+
         public static void Dots(int dotDuration=800, int dotsAmount=3)
         {
             for (int i = 0; i < dotsAmount - 1; i++)
