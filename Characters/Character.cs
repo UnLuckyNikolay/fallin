@@ -97,7 +97,7 @@ namespace Fallin.Characters
                 }
 
                 int damage = attacker.DamageRandom * damageMult * critMult - Armor;
-                if (IsBlocking) { damage = (int)Math.Round(damage * 0.75f); }
+                if (IsBlocking) { damage = (int)Math.Round(damage * 0.25f); }
                 Health -= damage;
 
                 if (this is Enemy)
@@ -111,7 +111,7 @@ namespace Fallin.Characters
                     if (critSuccess) { Console.Write(" Critical hit!"); }
                     Console.Write($" You take {damage} point(s) of damage");
                 }
-                Utilities.Dots();
+                Utilities.Dots(1200);
             }
         }
 
