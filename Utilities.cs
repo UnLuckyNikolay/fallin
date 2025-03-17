@@ -6,17 +6,28 @@ namespace Fallin
     public enum Color
     {
         // Console colors
+        White, // Default value, keep it at the first position for GetColorEnum
         DarkGray, DarkBlue, DarkGreen, DarkCyan, DarkRed, DarkMagenta, DarkYellow,
-        White, Gray, Blue, Green, Cyan, Red, Magenta, Yellow,
+        Gray, Blue, Green, Cyan, Red, Magenta, Yellow,
         // Custom colors
         Pride
     }
 
     public static class Utilities
     {
-        public static void WriteColored(string text, Color color)
+        /// <summary>
+        /// Returns Color enum, defaults to White if no color is found
+        /// </summary>
+        public static Color GetColorEnum(string color)
         {
-            switch (color)
+            color = color.Replace(" ", "");
+            Enum.TryParse(color, true, out Color colorEnum);
+            return colorEnum;
+        }
+
+        public static void WriteColored(string text, Color colorEnum)
+        {
+            switch (colorEnum)
             {
                 case Color.Pride:
                     char[] textChar = text.ToCharArray();
@@ -54,7 +65,7 @@ namespace Fallin
                     break;
                     
                 default: 
-                    if (Enum.TryParse<ConsoleColor>(color.ToString(), out ConsoleColor colorConsole))
+                    if (Enum.TryParse<ConsoleColor>(colorEnum.ToString(), out ConsoleColor colorConsole))
                     {
                         Console.ForegroundColor = colorConsole;
                         Console.Write(text);
