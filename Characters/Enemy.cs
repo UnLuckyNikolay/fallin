@@ -1,5 +1,6 @@
 using Fallin.InventorySystem;
 using Fallin.Enums;
+using static Utilities.ConsoleHelper;
 
 
 namespace Fallin.Characters
@@ -95,13 +96,13 @@ namespace Fallin.Characters
         public void WriteAttributes()
         {
             Console.Write(" --<");
-            Utilities.WriteColored(Name, NameColor);
+            WriteColored(Name, NameColor);
             Console.WriteLine(">--");
             Console.WriteLine($" Level: {Level}");
             Console.WriteLine($" Health Points: {Health}/{HealthMax}");
             Console.WriteLine();
             if (Health > 0) { Console.WriteLine(SpriteAlive); }
-            else { Utilities.WriteColored(SpriteDead, Color.DarkRed); }
+            else { WriteColored(SpriteDead, Color.DarkRed); }
             Console.WriteLine();
         }
 

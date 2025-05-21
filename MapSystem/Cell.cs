@@ -1,4 +1,5 @@
 using Fallin.Characters;
+using static Utilities.ConsoleHelper;
 
 namespace Fallin.MapSystem
 {
@@ -21,7 +22,7 @@ namespace Fallin.MapSystem
         {
             if (IsWall)
             {
-                Utilities.WriteColored("▒▒", Color.DarkYellow);
+                WriteColored("▒▒", Color.DarkYellow);
             }
             else if (character == null)
             {
@@ -29,7 +30,7 @@ namespace Fallin.MapSystem
             }
             else
             {
-                Utilities.WriteColored(character.NameMap, character.NameColor);
+                WriteColored(character.NameMap, character.NameColor);
             }
         }
 

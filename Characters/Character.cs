@@ -1,3 +1,5 @@
+using static Utilities.ConsoleHelper;
+
 namespace Fallin.Characters
 {
     public abstract class Character
@@ -7,9 +9,11 @@ namespace Fallin.Characters
         public Color NameColor { get; protected set; }
 
         private int health;
-        public int Health {
+        public int Health
+        {
             get => health;
-            set {
+            set
+            {
                 health = Math.Clamp(value, 0, HealthMax);
                 //if (health <= 0) { Death(); }
             }
@@ -69,7 +73,7 @@ namespace Fallin.Characters
         /// <summary>
         /// Calculates and deals damage, checks for dodge, crit and block
         /// </summary>
-        public void TakeDamageFrom(Character attacker, int damageMult=1)
+        public void TakeDamageFrom(Character attacker, int damageMult = 1)
         {
             Random rnd = new();
             int dodgeRoll = rnd.Next(101);
@@ -79,11 +83,11 @@ namespace Fallin.Characters
                 {
                     Console.Write($" {Name} dodges your attack");
                 }
-                else 
+                else
                 {
                     Console.Write($" You dodge {attacker.Name}'s attack");
                 }
-                Utilities.Dots();
+                Dots();
             }
             else
             {
@@ -105,13 +109,13 @@ namespace Fallin.Characters
                     if (critSuccess) { Console.Write(" Critical hit!"); }
                     Console.Write($" {Name} takes {damage} point(s) of damage");
                 }
-                else 
+                else
                 {
                     if (damageMult > 1) { Console.WriteLine($" The {attacker.Name} hits you with a charged attack!"); }
                     if (critSuccess) { Console.Write(" Critical hit!"); }
                     Console.Write($" You take {damage} point(s) of damage");
                 }
-                Utilities.Dots(1200);
+                Dots(1200);
             }
         }
 
@@ -143,7 +147,7 @@ namespace Fallin.Characters
                 {
                     SpecialAttackCharged = true;
                     Console.Write($" The {Name} prepares a devastating attack");
-                    Utilities.Dots(1000);
+                    Dots(1000);
                     return;
                 }
             }

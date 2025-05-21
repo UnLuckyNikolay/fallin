@@ -1,4 +1,6 @@
 using Fallin.Characters;
+using static Utilities.ConsoleHelper;
+using Utilities;
 
 namespace Fallin.MapSystem
 {
@@ -74,7 +76,7 @@ namespace Fallin.MapSystem
             else if (cellTarget.HasHero)
             {
                 Console.Write($" The {enemy.Name} approaches you");
-                Utilities.Dots();
+                Dots();
                 gsm.Fight.StartFight(enemy, false);
 
                 return true;
@@ -128,7 +130,7 @@ namespace Fallin.MapSystem
             {
                 player.Health -= 5;
                 Console.Write(" You slip on a banana peel. HP -5");
-                Utilities.Dots();
+                Dots();
 
                 return false;
             }
@@ -136,14 +138,14 @@ namespace Fallin.MapSystem
             {
                 player.Health -= 5;
                 Console.Write(" You bonk into a wall. HP -5");
-                Utilities.Dots();
+                Dots();
 
                 return false;
             }
             else if (cellTarget.HasEnemy)
             {
                 Console.Write($" You approach the {cellTarget.character?.Name}");
-                Utilities.Dots();
+                Dots();
                 gsm.Fight.StartFight((Enemy)cellTarget.character!, true);
 
                 return true;
@@ -155,7 +157,7 @@ namespace Fallin.MapSystem
                 player.Position = position;
 
                 Console.Write($" You move {direction}");
-                Utilities.Dots(400);
+                Dots(400);
 
                 return true;
             }
@@ -177,7 +179,7 @@ namespace Fallin.MapSystem
         protected bool Spawn(Character character)
         {
             int[][] spawns = MapLibrary.GetSpawns(id);
-            Utilities.ShuffleArray(spawns);
+            Shuffle.Fisher_Yates(spawns);
             for (int i = 0; i < spawns.Length; i++)
             {
                 Cell target = Layout[spawns[i][0], spawns[i][1]];
@@ -209,7 +211,7 @@ namespace Fallin.MapSystem
             {
                 enemy.Remove();
                 Console.Write($" Failed to spawn {enemy.Name}!");
-                Utilities.Dots();
+                Dots();
             }
         }
     }

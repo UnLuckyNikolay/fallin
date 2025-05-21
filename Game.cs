@@ -1,6 +1,7 @@
 using Fallin.Characters;
 using Fallin.Characters.Enemies;
 using Fallin.Enums;
+using static Utilities.ConsoleHelper;
 
 namespace Fallin
 {
@@ -89,7 +90,7 @@ namespace Fallin
                     Player.WriteAttributes();
                     Console.WriteLine();
                     Player.WriteSpecial();
-                    if (Player.SpecialLeft > 0) 
+                    if (Player.SpecialLeft > 0)
                     { Console.Write("\n Choose the next command (items, levelup, battlepass, exit): "); }
                     else { Console.Write("\n Choose the next command (items, battlepass, exit): "); }
                     break;
@@ -127,7 +128,7 @@ namespace Fallin
             }
             else
             {
-                switch(GSM.GameState)
+                switch (GSM.GameState)
                 {
                     case GameStates.Map:
                         CommandMap(commandSplit);
@@ -136,19 +137,19 @@ namespace Fallin
                     case GameStates.Fight:
                         CommandFight(commandSplit);
                         break;
-                        
+
                     case GameStates.Character:
                         CommandCharacter(commandSplit);
                         break;
-                        
+
                     case GameStates.Leveling:
                         CommandLeveling(commandSplit);
                         break;
-                        
+
                     case GameStates.Inventory:
                         CommandInventory(commandSplit);
                         break;
-                        
+
                     case GameStates.BattlePass:
                         CommandBattlePass(commandSplit);
                         break;
@@ -165,7 +166,7 @@ namespace Fallin
                     GSM.Fight.Enemy.Health = 0;
                     GSM.Fight.PlayerTurn = false;
                     Console.Write(" Avada Kedavra!");
-                    Utilities.Dots(200, 10);
+                    Dots(200, 10);
                     break;
 
                 case "heal":
@@ -173,39 +174,39 @@ namespace Fallin
                     Player.HealFull();
 
                     Console.Write($" Cheat used! {Player.Name} fully healed");
-                    Utilities.Dots();
+                    Dots();
                     break;
-                
+
                 case "lvlup":
                 case "levelup":
                     Player.Experience += Player.ExperienceMax;
 
                     Console.Write($" Cheat used! {Player.Name} leveled up");
-                    Utilities.Dots();
+                    Dots();
                     break;
-                
+
                 case "bpup":
                 case "battlepassup":
                     Player.ExperienceBP += 1000;
 
                     Console.Write($" Cheat used! Added 1000 BP Experience");
-                    Utilities.Dots();
+                    Dots();
                     break;
-                    
+
                 case "gold":
                 case "money":
                     if (!int.TryParse(commandSplit[2], out int gold)) { goto default; }
                     Player.Gold += gold;
 
                     Console.Write(" Cheat used! More money added");
-                    Utilities.Dots();
+                    Dots();
                     break;
 
                 case "kms":
                     Player.Health = 0;
 
                     Console.Write(" M'okay");
-                    Utilities.Dots();
+                    Dots();
                     break;
 
                 case "colortest":
@@ -246,10 +247,10 @@ namespace Fallin
                 case "info":
                 case "enemies":
                 case "enemylist":
-                    if (GSM.Enemies.Count == 0) 
+                    if (GSM.Enemies.Count == 0)
                     {
                         Console.WriteLine(" But nobody came");
-                        Utilities.Dots();
+                        Dots();
                     }
                     else
                     {
@@ -264,14 +265,14 @@ namespace Fallin
 
                 case "attack":
                 case "engage":
-                        if (!int.TryParse(commandSplit[2], out int index)) { goto default; }
-                        GSM.GameState = GameStates.Fight;
-                        // ADD fight
-                        break;
+                    if (!int.TryParse(commandSplit[2], out int index)) { goto default; }
+                    GSM.GameState = GameStates.Fight;
+                    // ADD fight
+                    break;
 
                 default:
                     Console.Write(" Do you even know how to cheat?");
-                    Utilities.Dots();
+                    Dots();
                     break;
             }
         }
@@ -300,15 +301,15 @@ namespace Fallin
                 case "turnoff":
                 case "exit":
                     Console.Write(" Are you sure you want to exit the game? (yes/no): ");
-                    while (true) 
+                    while (true)
                     {
                         string answer = Console.ReadLine() ?? "";
-                        if (answer == "yes") 
+                        if (answer == "yes")
                         {
                             GameRunning = false;
 
                             Console.Write(" K, bye");
-                            Utilities.Dots();
+                            Dots();
                             break;
                         }
                         else if (answer == "no") { break; }
@@ -318,7 +319,7 @@ namespace Fallin
 
                 default:
                     Console.Write(" Invalid Input");
-                    Utilities.Dots();
+                    Dots();
                     break;
             }
         }
@@ -328,7 +329,7 @@ namespace Fallin
             switch (commandSplit[0])
             {
                 case "attack":
-                    if (GSM.Fight.Enemy == null) { break; } 
+                    if (GSM.Fight.Enemy == null) { break; }
                     Player.Attack(GSM.Fight.Enemy);
                     GSM.Fight.PlayerTurn = false;
                     break;
@@ -339,7 +340,7 @@ namespace Fallin
                     Player.IsBlocking = true;
                     GSM.Fight.PlayerTurn = false;
                     Console.Write(" You take a defensive position");
-                    Utilities.Dots();
+                    Dots();
                     break;
 
                 default:
@@ -362,10 +363,10 @@ namespace Fallin
                 case "lvlup":
                 case "leveling":
                     if (Player.SpecialLeft > 0) { GSM.GameState = GameStates.Leveling; }
-                    else 
+                    else
                     {
                         Console.Write(" Nothing to level up");
-                        Utilities.Dots();
+                        Dots();
                     }
                     break;
 
@@ -373,7 +374,7 @@ namespace Fallin
                 case "bp":
                     GSM.GameState = GameStates.BattlePass;
                     break;
-                
+
                 case "return":
                 case "exit":
                 case "map":
@@ -382,7 +383,7 @@ namespace Fallin
 
                 default:
                     Console.Write(" What are you even trying to do?");
-                    Utilities.Dots();
+                    Dots();
                     break;
             }
         }
@@ -391,16 +392,16 @@ namespace Fallin
         {
             string special = commandSplit[0];
             while (Player.SpecialLeft > 0)
-            { 
+            {
                 Player.IncreaseSpecial(special);
-                if (Player.SpecialLeft > 0) 
-                { 
+                if (Player.SpecialLeft > 0)
+                {
                     Console.Write(" Choose the next Special: ");
                     special = (Console.ReadLine() ?? "").ToLower();
                 }
             }
             Console.Write(" Returning to the Character menu");
-            Utilities.Dots();
+            Dots();
             GSM.GameState = GameStates.Character;
         }
 
@@ -422,7 +423,7 @@ namespace Fallin
                 default:
                     string itemName = string.Join(" ", commandSplit.Skip(1));
                     Player.UseItem(itemName, Player); // ADD enemy targeting later if needed
-                    Utilities.Dots();
+                    Dots();
                     break;
             }
         }
@@ -445,10 +446,10 @@ namespace Fallin
                 case "map":
                     GSM.GameState = GameStates.Map;
                     break;
-                    
+
                 default:
                     Console.Write(" Invalid Input");
-                    Utilities.Dots();
+                    Dots();
                     break;
             }
         }

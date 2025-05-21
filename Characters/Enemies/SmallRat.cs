@@ -1,5 +1,6 @@
 using Fallin.InventorySystem.Items;
 using Fallin.Enums;
+using static Utilities.ConsoleHelper;
 
 namespace Fallin.Characters.Enemies
 {

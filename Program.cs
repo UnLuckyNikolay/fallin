@@ -17,8 +17,8 @@
                 Game_old.mapCurrentId = rnd.Next(0, Map_old.mapList.Length);
                 Game_old.mapCurrent = new string[Map_old.mapList[Game_old.mapCurrentId].Length][];
                 Game_old.mapCurrentUnpopulated = new string[Map_old.mapList[Game_old.mapCurrentId].Length][];
-                Tool.Copy2DArray(Map_old.mapList[Game_old.mapCurrentId], Game_old.mapCurrent);
-                Tool.Copy2DArray(Map_old.mapList[Game_old.mapCurrentId], Game_old.mapCurrentUnpopulated);
+                Tool_old.Copy2DArray(Map_old.mapList[Game_old.mapCurrentId], Game_old.mapCurrent);
+                Tool_old.Copy2DArray(Map_old.mapList[Game_old.mapCurrentId], Game_old.mapCurrentUnpopulated);
 
                 // --- Spawns player
                 Character_old player = new Character_old("Player");
@@ -174,7 +174,7 @@
                         case "fullheal":
                             Game_old.character[0].Heal();
                             Console.Write(" Cheat used! Character_old fully healed");
-                            Tool.Dots(800);
+                            Tool_old.Dots(800);
                             break;
 
                         case "lvlup":
@@ -182,21 +182,21 @@
                             Console.WriteLine(" Cheat used! Level increased.");
                             Game_old.character[0].xpCurrent = Game_old.character[0].xpMax;
                             Game_old.character[0].CalculateLevel();
-                            Tool.Dots(800);
+                            Tool_old.Dots(800);
                             break;
 
                         case "bpup":
                             Console.WriteLine(" Cheat used! BP level increased.");
                             Game_old.character[0].xpBpCurrent += 1000;
                             Game_old.character[0].CalculateLevel();
-                            Tool.Dots(800);
+                            Tool_old.Dots(800);
                             break;
 
                         case "money":
                             Console.Write(" Cheat used! More money added");
                             if (!int.TryParse(commandSplit[2], out int money)) { goto default; }
                             Game_old.character[0].money += money;
-                            Tool.Dots(800);
+                            Tool_old.Dots(800);
                             break;
 
                         case "attack":
@@ -246,7 +246,7 @@
                         case "kms":
                             Game_old.character[0].health = 0;
                             Console.Write(" M'okay");
-                            Tool.Dots(800);
+                            Tool_old.Dots(800);
                             break;
 
                         case "info":
@@ -264,7 +264,7 @@
 
                         default:
                             Console.Write(" Do you even know how to cheat?");
-                            Tool.Dots(600);
+                            Tool_old.Dots(600);
                             break;
                     }
                     break;
@@ -289,7 +289,7 @@
                                     Game_old.roundOn = false;
                                     Game_old.gameOn = false;
                                     Console.Write(" K, bye");
-                                    Tool.Dots(800);
+                                    Tool_old.Dots(800);
                                     break;
 
                                 case "legend":
@@ -305,7 +305,7 @@
                                 default:
                                     Game_old.character[0].health -= 5;
                                     Console.Write(" Invalid input. HP -5");
-                                    Tool.Dots(800);
+                                    Tool_old.Dots(800);
                                     break;
                             }
                             break;
@@ -329,7 +329,7 @@
                                     FightCurrent.playerTurn = false;
                                     FightCurrent.playerBlocking = true;
                                     Console.Write(" You take a defensive position");
-                                    Tool.Dots(800);
+                                    Tool_old.Dots(800);
                                     break;
 
                                 default:
@@ -355,7 +355,7 @@
                                     else
                                     {
                                         Console.Write(" Nothing to level up");
-                                        Tool.Dots(800);
+                                        Tool_old.Dots(800);
                                     }
                                     break;
 
@@ -371,7 +371,7 @@
                                 default:
                                     Game_old.character[0].health -= 5;
                                     Console.Write(" What are you even trying to do? Moral down. HP -5");
-                                    Tool.Dots(800);
+                                    Tool_old.Dots(800);
                                     break;
                             }
                             break;
@@ -391,12 +391,12 @@
                                         if (Game_old.character[0].health > Game_old.character[0].healthMax)
                                         { Game_old.character[0].health = Game_old.character[0].healthMax; }
                                         Console.Write(" You drink a health potion");
-                                        Tool.Dots(600);
+                                        Tool_old.Dots(600);
                                     }
                                     else 
                                     {
                                         Console.Write(" You are out of health potions");
-                                        Tool.Dots(600);
+                                        Tool_old.Dots(600);
                                     }
                                     break;
 
@@ -404,14 +404,14 @@
                                     if (Game_old.character[0].key > 0)
                                     {
                                         Console.Write(" You can use this to open the exit");
-                                        Tool.Dots(600);
+                                        Tool_old.Dots(600);
                                     }
                                     else { goto default; }
                                     break;
 
                                 default:
                                     Console.Write(" You don't have this item");
-                                    Tool.Dots(400);
+                                    Tool_old.Dots(400);
                                     break;
                             }
                             break;
@@ -472,7 +472,7 @@
                                     {
                                         Game_old.character[0].colorName = commandSplit[1];
                                         Console.Write(" Name color changed");
-                                        Tool.Dots(800);
+                                        Tool_old.Dots(800);
                                     }
                                     else { goto default; }
                                     break;
@@ -481,7 +481,7 @@
                                     break;
                                 default:
                                     Console.Write(" Invalid input");
-                                    Tool.Dots(400);
+                                    Tool_old.Dots(400);
                                     break;
                             }
                             break;
@@ -499,15 +499,15 @@
                 {
                     if (map[i][j].Equals("▒▒"))
                     {
-                        Tool.WriteColored(map[i][j], "darkyellow");
+                        Tool_old.WriteColored(map[i][j], "darkyellow");
                     }
                     else if (map[i][j].Equals(CharInfo.nameMap[0]))
                     {
-                        Tool.WriteColored(map[i][j], Game_old.character[0].colorName);
+                        Tool_old.WriteColored(map[i][j], Game_old.character[0].colorName);
                     }
                     else if (CharInfo.nameMap.Contains(map[i][j]))
                     {
-                        Tool.WriteColored(map[i][j], CharInfo.colorName[Array.IndexOf(CharInfo.nameMap, map[i][j])]);
+                        Tool_old.WriteColored(map[i][j], CharInfo.colorName[Array.IndexOf(CharInfo.nameMap, map[i][j])]);
                     }
                     else { Console.Write(map[i][j]); }
                 }
@@ -591,7 +591,7 @@
                     if (FightCurrent.enemyCharging)
                     {
                         Console.Write($" The {Game_old.character[Game_old.opponentIndex].name} hits you with a charged attack!");
-                        Tool.Dots(500);
+                        Tool_old.Dots(500);
                         Console.WriteLine();
                         Attack(Game_old.opponentIndex, 0, 3, FightCurrent.playerBlocking);
                         FightCurrent.enemyChargeCD = 2;
@@ -602,13 +602,13 @@
                     {
                         FightCurrent.enemyCharging = true;
                         Console.Write($" The {Game_old.character[Game_old.opponentIndex].name} prepares a devastating attack");
-                        Tool.Dots(1000);
+                        Tool_old.Dots(1000);
                     }
 
                     else
                     {
                         Console.Write($" The {Game_old.character[Game_old.opponentIndex].name} attacks you!");
-                        Tool.Dots(500);
+                        Tool_old.Dots(500);
                         Console.WriteLine();
                         Attack(Game_old.opponentIndex, 0, 1, FightCurrent.playerBlocking);
                         FightCurrent.enemyChargeCD--; 
@@ -627,7 +627,7 @@
                 Console.WriteLine();
                 Game_old.character[Game_old.opponentIndex].WriteAttributes();
                 Console.WriteLine();
-                Tool.WriteColored(CharInfo.sprite[id][1], "red");
+                Tool_old.WriteColored(CharInfo.sprite[id][1], "red");
                 Console.WriteLine();
                 Console.WriteLine();
                 Console.WriteLine($" The {Game_old.character[Game_old.opponentIndex].name} has been defeated!");
@@ -640,7 +640,7 @@
                 lvlup = Game_old.character[0].CalculateLevel();
                 if (lvlup) { Console.WriteLine(); }
                 Console.Write($" Acquired {15 + 15 * Game_old.character[Game_old.opponentIndex].level} XP, 100 Battle Pass XP");
-                Tool.GenerateLoot(Game_old.character[Game_old.opponentIndex].name);
+                Tool_old.GenerateLoot(Game_old.character[Game_old.opponentIndex].name);
                 Game_old.menuCurrent = "exploration";
 
                 // --- Removes enemy from the map if it was attacked using 'cheat attack N'
@@ -676,12 +676,12 @@
                 if (indexAttacker == 0)
                 {
                     Console.Write($" {Game_old.character[indexDefender].name} takes {attackLast} point(s) of damage");
-                    Tool.Dots(800);
+                    Tool_old.Dots(800);
                 }
                 else
                 {
                     Console.Write($" You take {attackLast} point(s) of damage");
-                    Tool.Dots(1000);
+                    Tool_old.Dots(1000);
                 }
             }
             else 
@@ -689,12 +689,12 @@
                 if (indexAttacker == 0) 
                 { 
                     Console.Write($" {Game_old.character[indexDefender].name} evades your attack");
-                    Tool.Dots(800);
+                    Tool_old.Dots(800);
                 }
                 else 
                 { 
                     Console.Write($" You evade {Game_old.character[indexAttacker].name}'s attack");
-                    Tool.Dots(800);
+                    Tool_old.Dots(800);
                 }
             }
         }
@@ -729,15 +729,15 @@
                         Game_old.menuCurrent = "fight";
                         if (index == 0)
                         {
-                            Game_old.opponentIndex = Tool.IndexOfArray(Game_old.characterLocation, goalXY);
+                            Game_old.opponentIndex = Tool_old.IndexOfArray(Game_old.characterLocation, goalXY);
                             Console.Write($" You approach the {CharInfo.name[Array.IndexOf(CharInfo.nameMap, goal)]}");
-                            Tool.Dots(800);
+                            Tool_old.Dots(800);
                         }
                         else 
                         {
                             Game_old.opponentIndex = index;
                             Console.Write($" The {CharInfo.name[Array.IndexOf(CharInfo.nameMap, Game_old.mapCurrent [Game_old.characterLocation[index][0]] [Game_old.characterLocation[index][1]] )]} approaches you");
-                            Tool.Dots(800);
+                            Tool_old.Dots(800);
                         }
                     }
                     else 
@@ -745,12 +745,12 @@
                         if (index == 0)
                         {
                             Console.Write($" You move {direction}");
-                            Tool.Dots(300);
+                            Tool_old.Dots(300);
                         }
                         else
                         {
                             Console.Write($" The {CharInfo.name[Array.IndexOf(CharInfo.nameMap, Game_old.mapCurrent[Game_old.characterLocation[index][0]][Game_old.characterLocation[index][1]])]} moves {direction}");
-                            Tool.Dots(300);
+                            Tool_old.Dots(300);
                         }
                     }
                     Game_old.mapCurrent [Game_old.characterLocation[index][0]] [Game_old.characterLocation[index][1]] = Game_old.mapCurrentUnpopulated [Game_old.characterLocation[index][0]] [Game_old.characterLocation[index][1]];
@@ -764,20 +764,20 @@
                 {
                     Game_old.character[0].health -= 5;
                     Console.Write(" You bonk into a wall. HP -5");
-                    Tool.Dots(800);
+                    Tool_old.Dots(800);
                 }
             }
             else if (index == 0)
             {
                 Game_old.character[0].health -= 5;
                 Console.Write(" You slip on a banana peel. HP -5");
-                Tool.Dots(800);
+                Tool_old.Dots(800);
             }
         }
     }
 
 
-    public static class Tool
+    public static class Tool_old
     {
         public static void WriteColored(string text, string color) // --- For coloring text
         {
@@ -1173,7 +1173,7 @@
         public void WriteAttributes()
         {
             Console.Write(" --<");
-            Tool.WriteColored(name, colorName);
+            Tool_old.WriteColored(name, colorName);
             Console.WriteLine(">--");
             if (id == 0)
             {
@@ -1221,15 +1221,15 @@
             Console.WriteLine(" ╠══════════╬══════════╬══════════╬══════════╬══════════╣");
 
             Console.Write(" ║");
-            Tool.WriteColored("Name Color", Game_old.color[3]);
+            Tool_old.WriteColored("Name Color", Game_old.color[3]);
             Console.Write("║");
-            Tool.WriteColored("Name Color", Game_old.color[14]);
+            Tool_old.WriteColored("Name Color", Game_old.color[14]);
             Console.Write("║");
-            Tool.WriteColored("Name Color", Game_old.color[13]);
+            Tool_old.WriteColored("Name Color", Game_old.color[13]);
             Console.Write("║");
-            Tool.WriteColored("Name Color", Game_old.color[4]);
+            Tool_old.WriteColored("Name Color", Game_old.color[4]);
             Console.Write("║");
-            Tool.WriteColored("Name Color", Game_old.color[15]);
+            Tool_old.WriteColored("Name Color", Game_old.color[15]);
             Console.WriteLine("║");
 
             Console.WriteLine(" ╚══════════╩══════════╩══════════╩══════════╩══════════╝");
@@ -1243,7 +1243,7 @@
                 Console.Write("║");
                 if (startLevel <= levelBp)
                 {
-                    Tool.WriteColored("▓▓▓▓▓▓▓▓▓▓", "green");
+                    Tool_old.WriteColored("▓▓▓▓▓▓▓▓▓▓", "green");
                 }
                 else if (startLevel == levelBp + 1)
                 {

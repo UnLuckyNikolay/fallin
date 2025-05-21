@@ -1,4 +1,5 @@
 using Fallin.InventorySystem;
+using static Utilities.ConsoleHelper;
 
 namespace Fallin.Characters
 {
@@ -110,7 +111,7 @@ namespace Fallin.Characters
                 }
             }
             else { Console.Write("Item not found!"); }
-            Utilities.Dots();
+            Dots();
         }
 
         public void PickupItem(Item item)
@@ -205,7 +206,7 @@ namespace Fallin.Characters
             if (!Enum.TryParse<Color>(color, true, out Color colorNew)) 
             {
                 Console.Write(" Invalid input");
-                Utilities.Dots();
+                Dots();
             }
             else
             {
@@ -213,12 +214,12 @@ namespace Fallin.Characters
                 {
                     NameColor = colorNew;
                     Console.Write($" Name color changed to {colorNew}");
-                    Utilities.Dots();
+                    Dots();
                 }
                 else
                 {
                     Console.Write(" Invalid input");
-                    Utilities.Dots();
+                    Dots();
                 }
             }
         }
@@ -232,7 +233,7 @@ namespace Fallin.Characters
         public void WriteAttributes()
         {
             Console.Write(" --<");
-            Utilities.WriteColored(Name, NameColor);
+            WriteColored(Name, NameColor);
             Console.WriteLine(">--");
 
             Console.WriteLine($" Level: {Level}, experience: {Experience}/{ExperienceMax}");
@@ -278,15 +279,15 @@ namespace Fallin.Characters
             Console.WriteLine(" ╠══════════╬══════════╬══════════╬══════════╬══════════╣");
 
             Console.Write(" ║");
-            Utilities.WriteColored("Name Color", BPRewards[0]);
+            WriteColored("Name Color", BPRewards[0]);
             Console.Write("║");
-            Utilities.WriteColored("Name Color", BPRewards[1]);
+            WriteColored("Name Color", BPRewards[1]);
             Console.Write("║");
-            Utilities.WriteColored("Name Color", BPRewards[2]);
+            WriteColored("Name Color", BPRewards[2]);
             Console.Write("║");
-            Utilities.WriteColored("Name Color", BPRewards[3]);
+            WriteColored("Name Color", BPRewards[3]);
             Console.Write("║");
-            Utilities.WriteColored("Name Color", BPRewards[4]);
+            WriteColored("Name Color", BPRewards[4]);
             Console.WriteLine("║");
 
             Console.WriteLine(" ╚══════════╩══════════╩══════════╩══════════╩══════════╝");
@@ -303,7 +304,7 @@ namespace Fallin.Characters
                 Console.Write("║");
                 if (startLevel <= LevelBP)
                 {
-                    Utilities.WriteColored("▓▓▓▓▓▓▓▓▓▓", Color.Green);
+                    WriteColored("▓▓▓▓▓▓▓▓▓▓", Color.Green);
                 }
                 else if (startLevel == LevelBP + 1)
                 {

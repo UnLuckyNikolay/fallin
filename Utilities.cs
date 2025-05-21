@@ -1,9 +1,10 @@
+
 namespace Fallin
 {
     /// <summary>
     /// Used for Utilities.WriteColored()
     /// </summary>
-    public enum Color
+    public enum Old_Color
     {
         // Console colors
         White, // Default value, keep it at the first position for GetColorEnum
@@ -13,23 +14,23 @@ namespace Fallin
         Pride
     }
 
-    public static class Utilities
+    public static class Old_Utilities
     {
         /// <summary>
         /// Returns Color enum, defaults to White if no color is found
         /// </summary>
-        public static Color GetColorEnum(string color)
+        public static Old_Color GetColorEnum(string color)
         {
             color = color.Replace(" ", "");
-            Enum.TryParse(color, true, out Color colorEnum);
+            Enum.TryParse(color, true, out Old_Color colorEnum);
             return colorEnum;
         }
 
-        public static void WriteColored(string text, Color colorEnum)
+        public static void WriteColored(string text, Old_Color colorEnum)
         {
             switch (colorEnum)
             {
-                case Color.Pride:
+                case Old_Color.Pride:
                     char[] textChar = text.ToCharArray();
                     int j = 0;
                     foreach (char i in textChar)
@@ -81,7 +82,7 @@ namespace Fallin
         /// </summary>
         public static void WriteColored(string text, string color)
         {
-            Color colorEnum = GetColorEnum(color);
+            Old_Color colorEnum = GetColorEnum(color);
             WriteColored(text, colorEnum);
         }
 
