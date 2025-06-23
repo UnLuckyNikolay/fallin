@@ -27,14 +27,14 @@ namespace Fallin.Characters.Enemies
         }, 
         new EnemyProperties{
             SpriteAlive = 
-                        """     _______     """ + "\n" +
-                        """   ./_o?____\_/  """ + "\n" +
-                        """      //  \\     """,
+"""     _______     """ + "\n" +
+"""   ./_o?____\_/  """ + "\n" +
+"""      //  \\     """,
 
             SpriteDead = 
-                        """                  """ + "\n" +
-                        """   .__\\__//__    """ + "\n" +
-                        """    \_*b____/ \   """,
+"""                  """ + "\n" +
+"""   .__\\__//__    """ + "\n" +
+"""    \_*b____/ \   """,
 
             LootTable = new Dictionary<InventorySystem.Item, int>
             {

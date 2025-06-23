@@ -151,11 +151,9 @@ namespace Fallin.Characters
                     return;
                 }
             }
-            else
-            {
-                AttackNormal(target);
-                SpecialAttackCD--;
-            }
+
+            AttackNormal(target);
+            SpecialAttackCD--;
         }
     }
 }

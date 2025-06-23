@@ -30,7 +30,7 @@ namespace Fallin
             Player = new(GSM, playerName);
             Player.Spawn();
 
-            GSM.Enemies.Add(new SmallRat(GSM));
+            GSM.Enemies.Add(new BigRat(GSM));
             GSM.Enemies.Add(new SmallRat(GSM));
             GSM.Enemies.Add(new SmallRat(GSM));
             GSM.Enemies.Add(new SmallRat(GSM));

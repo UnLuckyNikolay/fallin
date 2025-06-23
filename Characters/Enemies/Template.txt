@@ -1,11 +1,12 @@
 using Fallin.InventorySystem.Items;
 using Fallin.Enums;
+using static Utilities.ConsoleHelper;
 
 namespace Fallin.Characters.Enemies
 {
     public class ______ : Enemy
     {
-        public ______(GameStateManager GSM, CharacterProperties props, EnemyProperties eprops) : 
+        public ______(GameStateManager GSM) : 
         base(GSM, new CharacterProperties{
             Level = ______,
             Name = "______",
@@ -30,7 +31,7 @@ namespace Fallin.Characters.Enemies
 
             LootTable = new Dictionary<InventorySystem.Item, int>
             {
-                ______
+                { ______ }
             },
 
             ResourceTable = new Dictionary<ResourceType, int>
