@@ -107,20 +107,20 @@ namespace Fallin.Characters
         }
 
         /// <summary>
-        /// Removes enemy reference from GameStateManager and gives player the loot. To remove enemy without dropping loot use .Remove()
+        /// Removes the enemy from the map, does not remove from the Enemies list in GSM.
         /// </summary>
         public override void Death()
         {
-            Console.WriteLine();
-            Console.WriteLine($" {Name} has been killed!");
-            DropLoot();
+            //Console.WriteLine();
+            //Console.WriteLine($" {Name} has been killed!");
+            //DropLoot();
             
             //gsm.RemoveEnemyReference(this); Instead removed at the end of the turn to prevent modifying Enemies list while it's used
             gsm.CurrentMap.Layout[Position.y, Position.x].RemoveCharacter();
         }
 
         /// <summary>
-        /// Used to get rid of enemy without "killing" it, e.g. failed spawn
+        /// Removes the enemy from the map and GSM.Enemies list. Used for failed spawns.
         /// </summary>
         public void DebugRemove()
         {
