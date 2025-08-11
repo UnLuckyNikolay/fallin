@@ -39,5 +39,19 @@ namespace Fallin
         {
             Enemies.Remove(enemy);
         }
+
+        /// <summary>
+        /// Used at the end of a turn to remove dead enemies.
+        /// </summary>
+        public void RemoveDeadEnemies()
+        {
+            for (int i = Enemies.Count - 1; i >= 0; i--)
+            {
+                if (Enemies[i].IsAlive == false)
+                {
+                    Enemies.Remove(Enemies[i]);
+                }
+            }
+        }
     }
 }

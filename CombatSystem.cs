@@ -62,7 +62,7 @@ namespace Fallin
                 Console.Write(" Press Enter to return to the Map ");
 
                 gsm.GameState = GameStates.Map;
-                Enemy.Remove();
+                Enemy.Death();
                 Enemy = null;
 
                 Console.ReadLine();

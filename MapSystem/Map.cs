@@ -209,7 +209,7 @@ namespace Fallin.MapSystem
             bool success = Spawn(enemy);
             if (!success)
             {
-                enemy.Remove();
+                enemy.DebugRemove();
                 Console.Write($" Failed to spawn {enemy.Name}!");
                 Dots();
             }

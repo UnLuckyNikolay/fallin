@@ -111,17 +111,18 @@ namespace Fallin.Characters
         /// </summary>
         public override void Death()
         {
-            gsm.RemoveEnemyReference(this);
-
             Console.WriteLine();
             Console.WriteLine($" {Name} has been killed!");
             DropLoot();
+            
+            //gsm.RemoveEnemyReference(this); Instead removed at the end of the turn to prevent modifying Enemies list while it's used
+            gsm.CurrentMap.Layout[Position.y, Position.x].RemoveCharacter();
         }
 
         /// <summary>
         /// Used to get rid of enemy without "killing" it, e.g. failed spawn
         /// </summary>
-        public void Remove()
+        public void DebugRemove()
         {
             gsm.RemoveEnemyReference(this);
             gsm.CurrentMap.Layout[Position.y, Position.x].RemoveCharacter();

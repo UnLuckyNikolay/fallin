@@ -52,8 +52,10 @@ namespace Fallin
                     commandLast = (Console.ReadLine() ?? "").ToLower();
                     ProcessCommand(commandLast);
 
-                    // Player turn is finished by specific commands. At the time of writing - successful movement (moves player or starts a fight)
+                    // Player turn is finished by specific commands. At the time of writing - successful movement (moves player or starts a fight) or `cheat skip`
                 }
+
+                GSM.RemoveDeadEnemies();
 
                 while (!GSM.PlayerTurn)
                 {
@@ -64,6 +66,8 @@ namespace Fallin
 
                     GSM.PlayerTurn = true;
                 }
+
+                GSM.RemoveDeadEnemies();
             }
         }
 
@@ -268,6 +272,10 @@ namespace Fallin
                     if (!int.TryParse(commandSplit[2], out int index)) { goto default; }
                     GSM.GameState = GameStates.Fight;
                     // ADD fight
+                    break;
+
+                case "skip":
+                    GSM.PlayerTurn = false;
                     break;
 
                 default:
