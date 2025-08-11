@@ -306,6 +306,7 @@ namespace Fallin
                         string answer = Console.ReadLine() ?? "";
                         if (answer == "yes")
                         {
+                            GSM.PlayerTurn = false;
                             GameRunning = false;
 
                             Console.Write(" K, bye");
